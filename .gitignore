@@ -1,0 +1,11 @@
+# NODE
+node_modules
+
+# ENV
+.env
+.env.local
+.env.development
+.env.production
+
+#DIST
+dist
