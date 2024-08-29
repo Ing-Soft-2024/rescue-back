@@ -10,7 +10,19 @@
         ]
     ],
     "plugins": [
-        "transform-decorators-legacy",
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                // "version": "2023-11",
+                "legacy": true
+            }
+        ],
+        [
+            "@babel/plugin-transform-class-properties",
+            {
+                "loose": true
+            }
+        ],
         [
             "module-resolver",
             {
@@ -19,20 +31,9 @@
                 ],
                 "alias": {
                     "@/app": "./src/app",
-                    "@/lib": "./src/lib"
+                    "@/lib": "./src/lib",
+                    "@/utils": "./src/utils"
                 }
-            }
-        ],
-        [
-            "@babel/plugin-proposal-decorators",
-            {
-                "version": "2023-11"
-            }
-        ],
-        [
-            "@babel/plugin-transform-class-properties",
-            {
-                "loose": true
             }
         ]
     ],
