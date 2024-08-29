@@ -9,7 +9,7 @@ class RouteError extends Error {
 
 export default async function readRouter(app, params = {
     baseAPI: "api",
-    basePath: "src/app"
+    basePath: 'src/app'
 }) {
     if (!Boolean(app)) throw new RouteError("No main app provided");
     const files = fs.readdirSync(params.basePath,
@@ -22,11 +22,20 @@ export default async function readRouter(app, params = {
     for (const file of files) {
         if (!file.isFile() || file.name !== 'router.js') continue;
 
-        const importPath = `./${file.parentPath}/${file.name}`.replace('src/', '');
+        const importPath = `./${file.parentPath}/${file.name}`.replace(
+            process.env.PRODUCTION
+                ? 'dist'
+                : 'src'
+            , '');
         const apiPath = `/${file.parentPath}`
             .replace(/\/\[(?<name>\w+)\]/g, '/:$<name>')
             .replace(/\/$/, '')
-            .replace('src/app/', `${params.baseAPI}/`);
+            .replace(
+                process.env.PRODUCTION
+                    ? 'dist'
+                    : 'src'
+                , '')
+            .replace('/app/', `${params.baseAPI}/`);
 
         await import(importPath)
             .then((module) => {
