@@ -6,21 +6,41 @@ const createApplicaton = () => {
     const app = express();
 
     app.useSwagger = ({
-        info = {
-            title: "Swagger Express",
-            description: "This is a sample server for Swagger Express",
-            version: "1.0"
-        },
         swaggerDoc = "/docs",
         schemeURL = "/swagger.json"
     }) => {
         app.use(
             swagger.express({
                 path: schemeURL,
-                "definition": { "info": info, }
+                "definition": {
+                    "info": {
+                        'title': 'REST API RESCUE',
+                        'description': "Documentación completa de la nueva REST API para contactarse con el back de RescueApp.",
+                        'version': '1.0',
+                    },
+                    'basePath': '/api',
+                    'host': process.env.API_URL,
+                    'schemes': ['https'],
+                    'securityDefinitions': {
+                        'Bearer': {
+                            'type': 'apiKey',
+                            'name': 'Authorization',
+                            'in': 'header'
+                        }
+                    },
+                    'responses': {
+                        '200': 'Success',
+                        '400': {
+                            'model': 'ErrorModel'
+                        },
+                        '500': {
+                            'model': 'ErrorModel'
+                        }
+                    }
+                }
             }));
 
-        console.log(`Swagger documentations available at http://localhost:${process.env.PORT}${swaggerDoc}`);
+        console.log(`Swagger documentation available at http://localhost:${process.env.PORT}${swaggerDoc}`);
         return app.use(
             swaggerDoc,
             SwaggerUI.serve,
