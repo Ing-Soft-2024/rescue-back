@@ -4,8 +4,6 @@ WORKDIR /app
 
 FROM base as development
 COPY package*.json ./
-COPY rbac.conf ./
-COPY policies.csv ./
 ## ADDING PATCHES
 COPY ./patches ./patches
 
@@ -27,7 +25,5 @@ ENV PRODUCTION=true
 COPY --from=builder /tmp/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
-COPY --from=builder /app/rbac.conf ./
-COPY --from=builder /app/policies.csv ./
 EXPOSE 8000
 CMD ["node", "./dist/index.js"]
