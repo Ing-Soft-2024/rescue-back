@@ -7,7 +7,8 @@
     "build": "node --run clean && babel src -d dist",
     "dev": "nodemon --exec babel-node src/index.js",
     "serve": "node --run build && node dist/index.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "postinstall": "patch-package"
   },
   "keywords": [
     "koa",
@@ -27,6 +28,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
+    "patch-package": "^8.0.0",
     "swagger-express-ts": "^1.0.0",
     "swagger-ui-express": "^5.0.1"
   }
