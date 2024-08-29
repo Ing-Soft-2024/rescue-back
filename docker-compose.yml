@@ -1,0 +1,6 @@
+services:
+  rescue-api-rest:
+    build: .
+    image: api/rescue:v1
+    ports:
+      - "8080:8000"
