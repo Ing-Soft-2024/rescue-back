@@ -1,0 +1,1 @@
+export const editProduct = async (id, data) => { }
