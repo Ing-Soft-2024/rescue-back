@@ -10,7 +10,7 @@ const ProductCategories = sequelize.define('product_categories', {
     "productId": DataTypes.INTEGER,
     "categoryId": DataTypes.INTEGER,
 }, {
-    tableName: 'product_categoriess',
+    tableName: 'product_categories',
 });
 
 /**

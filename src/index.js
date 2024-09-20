@@ -15,11 +15,21 @@ app.use(express.json({
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 
+/**
+ * @type {Object[]} 
+ * @property {string} name
+ * @property {string} descripcion
+ */
+const categories = [
+    { "name": 'Comida', "description": 'Comida' },
+    { "name": 'Bebida', "description": 'Bebida' },
+    { "name": 'Vegetariano', "description": 'Vegetales' },
+    { "name": 'Café', "description": 'Café' },
+
+]
+
 initDatabase().then(() => {
-    Category.create({
-        "name": 'Electronics',
-        "description": 'Electronics'
-    })
+    categories.forEach(category => Category.create(category))
 })
 
 readRouter(app, {
