@@ -1,4 +1,6 @@
 import cors from "cors";
+import { initDatabase } from "database/index.js";
+import Category from "database/models/category.model.js";
 import dotenv from "dotenv";
 import express from "express";
 import readRouter from "./read.router.js";
@@ -12,6 +14,13 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
+
+initDatabase().then(() => {
+    Category.create({
+        "name": 'Electronics',
+        "description": 'Electronics'
+    })
+})
 
 readRouter(app, {
     baseAPI: 'api',
