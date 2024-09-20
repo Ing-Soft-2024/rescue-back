@@ -1,1 +1,3 @@
-export default class CommerceController { }
+export default class CommerceController {
+
+}
