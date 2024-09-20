@@ -1,4 +1,6 @@
 import cors from "cors";
+import { initDatabase } from "database/index.js";
+import Category from "database/models/category.model.js";
 import dotenv from "dotenv";
 import express from "express";
 import readRouter from "./read.router.js";
@@ -12,6 +14,23 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
+
+/**
+ * @type {Object[]} 
+ * @property {string} name
+ * @property {string} descripcion
+ */
+const categories = [
+    { "name": 'Comida', "description": 'Comida' },
+    { "name": 'Bebida', "description": 'Bebida' },
+    { "name": 'Vegetariano', "description": 'Vegetales' },
+    { "name": 'Café', "description": 'Café' },
+
+]
+
+initDatabase().then(() => {
+    categories.forEach(category => Category.create(category))
+})
 
 readRouter(app, {
     baseAPI: 'api',
