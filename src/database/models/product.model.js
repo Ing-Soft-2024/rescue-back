@@ -71,7 +71,7 @@ const Product = sequelize.define('product', {
 }, {
     timestamps: true,
     createdAt: 'createdAt',
-
+    paranoid: true,
     tableName: 'products',
 });
 
