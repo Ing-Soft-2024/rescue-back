@@ -55,6 +55,6 @@ export default async function readRouter(app, params = {
 }
 
 const _moduleInterpreter = (module) => {
-    if (module.default) module = new module.default();
+    if (module.default && typeof module.default === 'function') module = new module.default();
     return module;
 }

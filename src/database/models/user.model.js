@@ -29,8 +29,8 @@ const User = sequelize.define('user', {
  * @param {*} models 
  */
 User.associate = function (models) {
-    User.hasMany(models.user_favorite_product, { foreignKey: 'userId' });
-    User.hasMany(models.user_favorite_business, { foreignKey: 'userId' });
+    // User.hasMany(models.user_favorite_product, { foreignKey: 'userId' });
+    // User.hasMany(models.user_favorite_business, { foreignKey: 'userId' });
 
     User.hasMany(models.order, { foreignKey: 'userId' });
 }

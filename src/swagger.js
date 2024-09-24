@@ -20,7 +20,7 @@ const createApplicaton = () => {
                     },
                     'basePath': '/api',
                     'host': process.env.API_URL,
-                    'schemes': ['https'],
+                    'schemes': ['http'],
                     'securityDefinitions': {
                         'Bearer': {
                             'type': 'apiKey',
