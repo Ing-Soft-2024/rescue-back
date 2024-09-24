@@ -3,7 +3,7 @@ services:
     build: .
     image: api/rescue:v1
     ports:
-      - "8080:8000"
+      - "8000:8000"
     environment:
       - DOCKER=true
       - DB_HOST=db
