@@ -6,6 +6,16 @@ on:
     branches: [ main, master, development ]
 jobs:
   test:
+    environment: 
+     - name: environments 
+     - secrets: 
+       - FIREBASE_API_KEY
+       - FIREBASE_DOMAIN
+       - FIREBASE_PROJECT_ID
+       - FIREBASE_STORAGE_BUCKET
+       - FIREBASE_MESSAGE_ID
+       - FIREBASE_APP_ID
+       - FIREBASE_MEASUREMENT_ID
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
