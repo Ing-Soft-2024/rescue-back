@@ -29,26 +29,26 @@ const categories = [
 ]
 
 initDatabase().then(() => {
-    categories.forEach(category => Category.create(category))
-})
+    categories.forEach(async category => await Category.create(category))
+}).then(() => {
+    readRouter(app, {
+        baseAPI: 'api',
+        basePath: process.env.PRODUCTION ? 'dist/app' : 'src/app'
+    })
+        .then(() => {
+            /**
+             * If needs some other configuration, you can add them here with app.
+             */
 
-readRouter(app, {
-    baseAPI: 'api',
-    basePath: process.env.PRODUCTION ? 'dist/app' : 'src/app'
-})
-    .then(() => {
-        /**
-         * If needs some other configuration, you can add them here with app.
-         */
+            // DETERMINE WHETHER TO USE SWAGGER
+            app.useSwagger({
+                "swaggerDoc": "/docs",
+                "schemeURL": "/swagger.json"
+            });
 
-        // DETERMINE WHETHER TO USE SWAGGER
-        app.useSwagger({
-            "swaggerDoc": "/docs",
-            "schemeURL": "/swagger.json"
+            app.listen(process.env.PORT, (err) => {
+                if (err) return console.error(err);
+                console.log(`Server running at http://localhost:${process.env.PORT}/`);
+            });
         });
-
-        app.listen(process.env.PORT, (err) => {
-            if (err) return console.error(err);
-            console.log(`Server running at http://localhost:${process.env.PORT}/`);
-        });
-    });
+})

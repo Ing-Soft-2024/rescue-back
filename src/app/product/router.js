@@ -5,19 +5,36 @@ import { getListOfProducts } from "./controller/products.get";
 
 @ApiPath({
     name: "Products",
-    path: "/products",
+    path: "/product",
     description: "Module to manage products.",
 })
-export default class ProductController {
+export default class ProductsController {
 
     @ApiOperationGet({
         description: "Get list of products",
         summary: "Get list of products",
+        parameters: {
+            query: {
+                "categoryId": {
+                    type: 'integer',
+                    description: "Id of the category",
+                    required: false,
+                },
+                "commerceId": {
+                    type: 'integer',
+                    description: "Id of the commerce",
+                    required: false,
+                }
+            }
+        },
         responses: {
             200: "Success",
         },
     })
-    GET = (req, res) => responseFormula(res, getListOfProducts());
+    GET = (req, res) => responseFormula(
+        res,
+        getListOfProducts(req.query.categoryId, req.query.commerceId)
+    );
 
 
     @ApiOperationPost({

@@ -9,11 +9,11 @@ const sequelize = new Sequelize({
     dialect: 'postgres',
     // logging: false,
 
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    database: process.env.DB_NAME ?? 'rescue',
+    username: process.env.DB_USER ?? 'postgres',
+    password: process.env.DB_PASSWORD ?? 'postgres',
+    host: process.env.DB_HOST ?? 'localhost',
+    port: process.env.DB_PORT ?? 5432,
 });
 
 const associateModels = async () => {
@@ -30,8 +30,8 @@ const associateModels = async () => {
     for (const file of files) {
         if (!file.isFile() || !file.name.endsWith('model.js')) continue;
 
-        const importPath = `${basePath}/${file.parentPath}/${file.name}`;
-
+        // const importPath = `${basePath}/${file.parentPath}/${file.name}`;
+        const importPath = `./models/${file.name}`;
         await import(importPath)
             .then((module) => module.default)
             .then((model) => {
