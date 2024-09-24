@@ -18,18 +18,20 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - name: Starting Docker containers
-      run: docker-compose up -d
+    - name: Starting Docker containers and waiting for them to be ready
+      run: docker-compose up -d && sleep 30 && docker-compose ps
 
     - uses: actions/checkout@v4
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Install dependencies
-      run: npm install
-    - name: Run tests
-      run: npm test
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
 
-      - name: Stopping Docker containers
-        run: docker-compose down
+    - name: Install dependencies and run tests
+      run: npm ci && npm test
+
+    - name: Stopping Docker containers and removing them
+      run: docker-compose down
+      continue-on-error: true
