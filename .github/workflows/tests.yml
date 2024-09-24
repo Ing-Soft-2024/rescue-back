@@ -6,19 +6,21 @@ on:
     branches: [ main, master, development ]
 jobs:
   test:
-    environment: 
-     - name: environments 
-     - secrets: 
-       - FIREBASE_API_KEY
-       - FIREBASE_DOMAIN
-       - FIREBASE_PROJECT_ID
-       - FIREBASE_STORAGE_BUCKET
-       - FIREBASE_MESSAGE_ID
-       - FIREBASE_APP_ID
-       - FIREBASE_MEASUREMENT_ID
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_DOMAIN: ${{ secrets.FIREBASE_DOMAIN }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      FIREBASE_MESSAGE_ID: ${{ secrets.FIREBASE_MESSAGE_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
+    - name: Starting Docker containers
+      run: docker-compose up -d
+
     - uses: actions/checkout@v4
     - name: Install Node.js
       uses: actions/setup-node@v4
@@ -29,3 +31,6 @@ jobs:
     - run: npm ci
     - name: Run tests
       run: npm test
+
+      - name: Stopping Docker containers
+        run: docker-compose down
