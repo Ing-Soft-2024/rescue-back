@@ -1,5 +1,43 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from "sequelize";
+import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 import { sequelize } from "../index";
+@ApiModel({
+    name: 'OrderItem',
+    description: 'OrderItem model',
+})
+class OrderItemModel extends Model {
+    @ApiModelProperty({
+        description: 'Order id',
+        required: true,
+        example: 1,
+        type: 'integer',
+    })
+    orderId;
+
+    @ApiModelProperty({
+        description: 'Product id',
+        required: true,
+        example: 1,
+        type: 'integer',
+    })
+    productId;
+
+    @ApiModelProperty({
+        description: 'Quantity',
+        required: true,
+        example: 1,
+        type: 'integer',
+    })
+    quantity;
+
+    @ApiModelProperty({
+        description: 'Price',
+        required: true,
+        example: 1,
+        type: 'number',
+    })
+    price;
+}
 
 /**
  * 

@@ -1,1 +1,4 @@
-export const getProductById = async (id) => { }
+export const getProductById = async (id) => {
+
+
+}
