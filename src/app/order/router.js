@@ -1,4 +1,4 @@
-import { ApiOperationGet, ApiPath } from "swagger-express-ts";
+import { ApiOperationGet, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
 

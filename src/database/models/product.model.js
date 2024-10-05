@@ -1,5 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
+import { ApiModel, ApiModelProperty } from "swagger-express-decorators";
 import { sequelize } from "../index";
 
 /**
@@ -71,7 +71,7 @@ const Product = sequelize.define('product', {
 }, {
     timestamps: true,
     createdAt: 'createdAt',
-
+    paranoid: true,
     tableName: 'products',
 });
 

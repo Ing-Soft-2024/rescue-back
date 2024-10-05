@@ -1,5 +1,5 @@
 import express from "express";
-import * as swagger from "swagger-express-ts";
+import * as swagger from "swagger-express-decorators";
 import SwaggerUI from "swagger-ui-express";
 
 const createApplicaton = () => {

@@ -5,7 +5,8 @@ export const getListOfProducts = async (categoryId, businessId) => {
 
     const where = {
         "categoryId": categoryId ?? null,
-        "businessId": businessId ?? null
+        "businessId": businessId ?? null,
+        "deletedAt": null
     }
     !categoryId && delete where.categoryId;
     !businessId && delete where.businessId;

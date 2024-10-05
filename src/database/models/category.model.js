@@ -1,5 +1,28 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from "sequelize";
+import { ApiModel, ApiModelProperty } from "swagger-express-decorators";
 import { sequelize } from "../index";
+
+@ApiModel({
+    name: 'Category',
+    description: 'Category model',
+})
+class CategoryModel extends Model {
+    @ApiModelProperty({
+        description: 'Name',
+        required: true,
+        example: 'Category name',
+        type: 'string',
+    })
+    name;
+
+    @ApiModelProperty({
+        description: 'Description',
+        required: true,
+        example: 'Category description',
+        type: 'string',
+    })
+    description;
+}
 
 /**
  * 
