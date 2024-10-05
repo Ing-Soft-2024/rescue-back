@@ -1,10 +1,10 @@
-import { ApiOperationGet, ApiPath } from "swagger-express-ts";
+import { ApiOperationGet, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getCategories } from "./controller/categories.get";
 
 @ApiPath({
     name: "Categories",
-    path: "/category",
+    path: "/categories",
     description: "Module to manage categories.",
 })
 export default class CategoryController {

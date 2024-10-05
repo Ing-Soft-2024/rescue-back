@@ -1,5 +1,5 @@
 import { responseFormula } from "@/utils/response.util";
-import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { createBlob, getBlobData } from "./controller/storage.controller";
 import { dataURLtoFile } from "./lib/base64ToFile";
 import { FileModel } from "./model/file.model";

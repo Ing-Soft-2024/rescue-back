@@ -1,6 +1,6 @@
 // Using babel-jest
 
-const { getCategories } = require("app/category/controller/categories.get");
+const { getCategories } = require("app/categories/controller/categories.get");
 const { default: Category } = require("database/models/category.model");
 
 test('Get categories', async () => {

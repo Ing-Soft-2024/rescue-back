@@ -18,6 +18,13 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
+    - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
     - name: Starting Docker containers and waiting for them to be ready
       run: docker-compose up -d && sleep 30 && docker-compose ps
 
