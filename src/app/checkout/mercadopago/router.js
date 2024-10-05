@@ -15,13 +15,9 @@ export default class CheckoutProController {
         summary: "CheckoutPro example",
         parameters: {
             body: {
-                items:[
-                {
                 description: "Order Item Object",
                 required: true,
-                model: "OrderItem"
-                }
-                ]
+                model: "OrderItem",
             },
         },
         responses: {

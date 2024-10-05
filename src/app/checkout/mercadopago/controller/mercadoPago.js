@@ -21,11 +21,24 @@ export const createPreference = async (data) => {
   //   console.log("data lenght: ", data.items?.length);
   //   throw new Error("No hay productos en el carrito");
   // }
-  console.log("data: ", data);
-
+  // console.log("data: ", data);
+  var items = [];
+  
+  for (let index = 0; index < 1; index++) {
+    const element = {
+      title: "Producto " + data.orderId,
+      quantity: Number(data.quantity),
+      currency_id: "ARS",
+      unit_price: Number(data.price)
+    };
+    items.push(element);
+    };
+    
+  
+  console.log("items: ", items);
   const preference = new Preference(client);
   const result = await preference.create({
-    data
+    body:{items}
   }).catch((err) => {
       console.error(err);
       throw new Error("Error al crear la preferencia");});
