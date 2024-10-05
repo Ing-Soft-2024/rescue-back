@@ -3,6 +3,8 @@ import { initDatabase } from "database/index.js";
 import Category from "database/models/category.model.js";
 import dotenv from "dotenv";
 import express from "express";
+import { swaggerJSON } from "swagger-express-decorators/express.configurator.js";
+import swaggerUI from "swagger-ui-express";
 import readRouter from "./read.router.js";
 import swagger from "./swagger.js";
 
@@ -25,7 +27,6 @@ const categories = [
     { "name": 'Bebida', "description": 'Bebida' },
     { "name": 'Vegetariano', "description": 'Vegetales' },
     { "name": 'Café', "description": 'Café' },
-
 ]
 
 initDatabase().then(() => {
@@ -41,10 +42,41 @@ initDatabase().then(() => {
              */
 
             // DETERMINE WHETHER TO USE SWAGGER
-            app.useSwagger({
-                "swaggerDoc": "/docs",
-                "schemeURL": "/swagger.json"
+            app.get('/swagger.json', (req, res) => {
+                res.json(swaggerJSON({
+                    "info": {
+                        "title": "REST API RESCUE",
+                        "description": "Documentación completa de la nueva REST API para contactarse con el back de RescueApp.",
+                        "version": "1.0",
+                    },
+                    "basePath": "/api",
+                    "host": process.env.API_URL,
+                    "schemes": ["http"],
+                    "securityDefinitions": {
+                        "Bearer": {
+                            "type": "apiKey",
+                            "name": "Authorization",
+                            "in": "header"
+                        }
+                    },
+                    "responses": {
+                        "200": "Success",
+                        "400": {
+                            "model": "ErrorModel"
+                        },
+                        "500": {
+                            "model": "ErrorModel"
+                        }
+                    }
+                }));
             });
+
+            app.use('/docs', swaggerUI.serve, swaggerUI.setup(null, null, null, null, null, '/swagger.json'));
+
+            // app.useSwagger({
+            //     "swaggerDoc": "/docs",
+            //     "schemeURL": "/swagger.json"
+            // });
 
             app.listen(process.env.PORT, (err) => {
                 if (err) return console.error(err);

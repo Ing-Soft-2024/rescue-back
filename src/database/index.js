@@ -71,4 +71,3 @@ const initDatabase = async () => {
 }
 
 export { initDatabase, sequelize };
-
