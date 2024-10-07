@@ -1,4 +1,8 @@
-import {ApiOperationPost, ApiPath } from "swagger-express-ts";
+
+
+
+
+import { ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { createPreference } from "./controller/mercadoPago";
 
@@ -7,9 +11,7 @@ import { createPreference } from "./controller/mercadoPago";
     path: "/checkout/mercadopago",
     description: "Module to manage Mercado Pago checkout.",
 })
-export default class CheckoutProController {
-
-
+export default class CheckoutController {
     @ApiOperationPost({
         description: "CheckoutPro example",
         summary: "CheckoutPro example",
