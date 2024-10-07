@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "koa",
+    "slug": "koa",
+    "version": "1.0.0",
+    "description": "Template for Koa.js with Directory Structure",
+    "sdkVersion": "51.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "android": {
+      "package": "com.nicookim.koa"
+    },
+    "ios": {
+      "bundleIdentifier": "com.nicookim.koa"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { addCommerce } from "./controller/commerce.add";
 import { getCommerces } from "./controller/commerces.get";

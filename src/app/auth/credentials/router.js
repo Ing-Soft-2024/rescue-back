@@ -1,4 +1,4 @@
-import { ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 
 @ApiPath({
