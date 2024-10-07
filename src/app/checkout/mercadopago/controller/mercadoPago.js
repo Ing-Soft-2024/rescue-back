@@ -38,12 +38,21 @@ export const createPreference = async (data) => {
   console.log("items: ", items);
   const preference = new Preference(client);
   const result = await preference.create({
-    body:{items}
+    body:{
+      items,
+      "back_urls": 
+      {
+        "success": "https://google.com",
+        "failure": "http://www.tu-sitio/failure",
+        "pending": "http://www.tu-sitio/pending"
+      },
+      "auto_return": "approved",
+    }
   }).catch((err) => {
       console.error(err);
       throw new Error("Error al crear la preferencia");});
 
-      console.log("return: ", result.id);
+      console.log("return: ", result);
 
   return {
     checkoutURL: result.init_point
