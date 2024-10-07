@@ -43,8 +43,10 @@ export const createPreference = async (data) => {
       console.error(err);
       throw new Error("Error al crear la preferencia");});
 
+      console.log("return: ", result.id);
+
   return {
-    id: result.id
+    checkoutURL: result.init_point
   };
 }
 
