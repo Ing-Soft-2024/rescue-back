@@ -9,3 +9,9 @@ export function dataURLtoFile(dataurl, filename) {
     }
     return new File([u8arr], filename, { type: mime });
 }
+
+export function base64ToFile(base64, filename) {
+    const buffer = Buffer.from(base64, 'base64');
+    const u8arr = new Uint8Array(buffer);
+    return new File([u8arr], filename);
+}

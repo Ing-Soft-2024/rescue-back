@@ -3,7 +3,7 @@
 // SDK de Mercado Pago
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-if(!process.env['MERCADO_PAGO_ACCESS_TOKEN']){
+if (!process.env['MERCADO_PAGO_ACCESS_TOKEN']) {
   throw new Error("No se ha definido el token de acceso a Mercado Pago");
 }
 // Agrega credenciales
@@ -23,7 +23,7 @@ export const createPreference = async (data) => {
   // }
   // console.log("data: ", data);
   var items = [];
-  
+
   for (let index = 0; index < 1; index++) {
     const element = {
       title: "Producto " + data.orderId,
@@ -32,27 +32,34 @@ export const createPreference = async (data) => {
       unit_price: Number(data.price)
     };
     items.push(element);
-    };
-    
-  
+  };
+
+
   console.log("items: ", items);
   const preference = new Preference(client);
   const result = await preference.create({
-    body:{
+    body: {
       items,
-      // "back_urls": 
-      // {
-      //   "success": "https://google.com",
-      //   "failure": "http://www.tu-sitio/failure",
-      //   "pending": "http://www.tu-sitio/pending"
-      // },
-      // "auto_return": "approved",
+      "back_urls":
+      {
+        // Cambio de url empieza con rescue://
+        // Si empieza con rescue:// me fjo si trae algún parámetro
+        // Si es success = true, se redirige al success
+        // Si es success = false, se redirige al failure
+        // Si es pending = true, se pone un spinner
+        "success": "rescue://checkout/mercadopago/?success=true",
+        "failure": "rescue://checkout/mercadopago/?success=false",
+        "pending": "rescue://checkout/mercadopago/?pending=true",
+      },
+
+      "auto_return": "approved",
     }
   }).catch((err) => {
-      console.error(err);
-      throw new Error("Error al crear la preferencia");});
+    console.error(err);
+    throw new Error("Error al crear la preferencia");
+  });
 
-      console.log("return: ", result);
+  console.log("return: ", result);
 
   return {
     checkoutURL: result.init_point

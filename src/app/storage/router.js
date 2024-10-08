@@ -1,7 +1,7 @@
 import { responseFormula } from "@/utils/response.util";
 import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { createBlob, getBlobData } from "./controller/storage.controller";
-import { dataURLtoFile } from "./lib/base64ToFile";
+import { base64ToFile } from "./lib/base64ToFile";
 import { FileModel } from "./model/file.model";
 
 @ApiPath({
@@ -52,8 +52,7 @@ export default class StorageController {
     POST = async (req, res) => {
         console.log('guardar archivo ' + req.body.fileName);
         const fileModel = new FileModel(req.body.fileName, req.body.file);
-
-        const file = dataURLtoFile(fileModel.file, fileModel.fileName);
+        const file = base64ToFile(fileModel.file, fileModel.fileName);
 
         return responseFormula(res, createBlob(file.name, file));
     }
