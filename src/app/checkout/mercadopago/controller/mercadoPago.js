@@ -23,6 +23,7 @@ export const createPreference = async (data) => {
   // }
   // console.log("data: ", data);
   var items = [];
+  console.log("Creando petición");
 
   for (let index = 0; index < 1; index++) {
     const element = {
