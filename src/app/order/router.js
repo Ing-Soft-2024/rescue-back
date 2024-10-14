@@ -1,7 +1,7 @@
-import { ApiOperationGet, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet,ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
-
+import { postOrder } from "./controller/order.post";
 @ApiPath({
     name: "Orders",
     path: "/order",
@@ -36,4 +36,23 @@ export default class OrdersController {
         req.query.userId,
         req.query.businessId
     ));
+
+    @ApiOperationPost({
+        description: "Post order",
+            parameters: {
+                body: {
+                    description: "create Order with id",
+                    required: true,
+                    model: "Order",
+                },
+            },
+        summary: "Create an order ",
+        responses: {
+            200: {
+                description: "Success",
+                model: "Order",
+            }
+        },
+    })
+    POST = (req, res) => responseFormula(res, postOrder(req.params.body));
 }
