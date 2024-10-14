@@ -30,13 +30,13 @@ class OrderItemModel extends Model {
     })
     quantity;
 
-    // @ApiModelProperty({
-    //     description: 'Price',
-    //     required: true,
-    //     example: 1,
-    //     type: 'number',
-    // })
-    // price;
+    @ApiModelProperty({
+        description: 'Price',
+        required: true,
+        example: 1,
+        type: 'number',
+    })
+    price;
 }
 
 /**
@@ -48,7 +48,7 @@ const OrderItem = sequelize.define('order_item', {
     "orderId": DataTypes.INTEGER,
     "productId": DataTypes.INTEGER,
     "quantity": DataTypes.INTEGER,
-   // "price": DataTypes.DECIMAL,
+    "price": DataTypes.DECIMAL,
 }, {
     timestamps: true,
     createdAt: 'createdAt',

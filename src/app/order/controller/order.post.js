@@ -7,6 +7,11 @@ export const postOrder =async (data) => {
             console.error(err);
             throw new Error("Error al agregar el item");
         });
-
-    return order;
+    console.log("order: ",order.id);
+    return {
+            orderId: order.id,
+            userId: order.userId,
+            status: order.status,
+            total: order.total
+    };
 }

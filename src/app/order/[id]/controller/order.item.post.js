@@ -17,9 +17,11 @@ export const postOrderItem =async (data) => {
         console.log("Product.findByPk(item.productId): ",product);
         console.log("price: ",product.price);
     return {
+            orderId: item.orderId,
             orderItemid: item.id,
             productId: item.productId,
-            price: product.price,
+            //price: product.price,
+            price: item.price,
             quantity: item.quantity
     };
     
