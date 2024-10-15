@@ -12,5 +12,12 @@ export const getOrderById = async (id) => {
     });
 
     if (!order) throw new Error("No se encontró el pedido");
-    return order;
+
+    const orderItems = order.getDataValue('order_items');
+    const total = orderItems.reduce((acc, item) => acc + item.price, 0);
+
+    return {
+        ...order.toJSON(),
+        total
+    };
 }
