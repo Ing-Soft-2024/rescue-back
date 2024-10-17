@@ -23,13 +23,14 @@ class OrderModel extends Model {
     })
     businessId;
 
+
     @ApiModelProperty({
-        description: 'qr string',
-        required: true,
-        example: "4b24c032-23f3-44ed-b49a-8f099a149469",
+        description: 'order state',
+        required: false,
+        example: "in progress",
         type: 'string',
     })
-    qrString;
+    status;
 }
 
 /**
@@ -40,7 +41,8 @@ class OrderModel extends Model {
 const Order = sequelize.define('order', {
     "userId": DataTypes.INTEGER,
     "businessId": DataTypes.INTEGER,
-    "qrString": DataTypes.STRING,
+  
+    "status": DataTypes.STRING
 }, {
     timestamps: true,
     createdAt: 'createdAt',

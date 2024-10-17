@@ -9,11 +9,9 @@ export const postOrder =async (data) => {
             throw new Error("Error al agregar el item");
         });
     console.log("order: ",order.id);
-    console.log("orderQRString: ",order.qrString);
     return {
             orderId: order.id,
             userId: order.userId,
             status: order.status,
-            qrString: order.qrString
     };
 }
