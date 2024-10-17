@@ -1,6 +1,7 @@
 import Order from "database/models/order.model";
 
 export const postOrder =async (data) => {
+    console.log("data: ",data);
     const order =
     await Order.create(data)
         .catch((err) => {
@@ -8,10 +9,11 @@ export const postOrder =async (data) => {
             throw new Error("Error al agregar el item");
         });
     console.log("order: ",order.id);
+    console.log("orderQRString: ",order.qrString);
     return {
             orderId: order.id,
             userId: order.userId,
             status: order.status,
-            total: order.total
+            qrString: order.qrString
     };
 }

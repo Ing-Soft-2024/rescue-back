@@ -16,5 +16,6 @@ export const getListOfOrders = async (userId, businessId) => {
         console.error(err);
         throw new Error("Error al obtener las órdenes");
     });
+    console.log("orders: ", orders);
     return orders;
 }

@@ -24,12 +24,12 @@ class OrderModel extends Model {
     businessId;
 
     @ApiModelProperty({
-        description: 'total',
-        required: false,
-        example: 1,
-        type: 'double',
+        description: 'qr string',
+        required: true,
+        example: "4b24c032-23f3-44ed-b49a-8f099a149469",
+        type: 'string',
     })
-    total;
+    qrString;
 }
 
 /**
@@ -40,6 +40,7 @@ class OrderModel extends Model {
 const Order = sequelize.define('order', {
     "userId": DataTypes.INTEGER,
     "businessId": DataTypes.INTEGER,
+    "qrString": DataTypes.STRING,
 }, {
     timestamps: true,
     createdAt: 'createdAt',

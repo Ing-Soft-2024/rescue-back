@@ -54,5 +54,5 @@ export default class OrdersController {
             }
         },
     })
-    POST = (req, res) => responseFormula(res, postOrder(req.params.body));
+    POST = (req, res) => responseFormula(res, postOrder(req.body));
 }
