@@ -22,6 +22,14 @@ class OrderModel extends Model {
         type: 'integer',
     })
     businessId;
+
+    @ApiModelProperty({
+        description: 'total',
+        required: false,
+        example: 1,
+        type: 'double',
+    })
+    total;
 }
 
 /**
@@ -45,7 +53,7 @@ const Order = sequelize.define('order', {
  * @param {*} models 
  */
 Order.associate = function (models) {
-    Order.belongsToMany(models.business, { through: models.order_business_status, foreignKey: 'orderId' });
+    Order.belongsTo(models.business, { foreignKey: 'businessId' });
     Order.hasMany(models.order_item, { foreignKey: 'orderId' });
 }
 
