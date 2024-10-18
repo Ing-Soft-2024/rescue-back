@@ -48,7 +48,8 @@ export const createPreference = async (data) => {
         // Si es success = true, se redirige al success
         // Si es success = false, se redirige al failure
         // Si es pending = true, se pone un spinner
-        "success": "rescue://checkout/mercadopago/?success=true",
+        // "success": "rescueapp://checkout/mercadopago/?success=true",
+        "success": "rescueapp://",
         "failure": "rescue://checkout/mercadopago/?success=false",
         "pending": "rescue://checkout/mercadopago/?pending=true",
       },
