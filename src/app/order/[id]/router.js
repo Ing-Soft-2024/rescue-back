@@ -1,7 +1,9 @@
-import { ApiOperationGet,ApiOperationPost, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet,ApiOperationPost,ApiOperationPatch, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getOrderById } from "./controller/order.get";
 import { postOrderItem } from "./controller/order.item.post";
+import { type } from "os";
+import { updateOrderStatus } from "./controller/order.update";
 
 @ApiPath({
     name: "OrderDetails",
@@ -49,4 +51,30 @@ export default class OrderDetailsController {
         },
     })
     POST = (req, res) => responseFormula(res, postOrderItem(req.body));
+
+    @ApiOperationPatch({
+        description: "Update order Status",
+            parameters: {
+                path: {
+                    id: {
+                        type: 'integer',
+                        description: "Id of the order",
+                        required: true,
+                    }
+                },
+                body: {
+                    description: "Update Order Status",
+                    required: true,
+                    type: 'string',
+                },
+            },
+        summary: "Update order Status",
+        responses: {
+            200: {
+                description: "Success",
+                model: "OrderItem",
+            }
+        },
+    })
+    PATCH = (req, res) => responseFormula(res, updateOrderStatus(req.params.id, req.body.status));
 }
