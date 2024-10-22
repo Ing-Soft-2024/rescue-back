@@ -23,13 +23,14 @@ class OrderModel extends Model {
     })
     businessId;
 
+
     @ApiModelProperty({
-        description: 'total',
+        description: 'order state',
         required: false,
-        example: 1,
-        type: 'double',
+        example: "in progress",
+        type: 'string',
     })
-    total;
+    status;
 }
 
 /**
@@ -40,6 +41,8 @@ class OrderModel extends Model {
 const Order = sequelize.define('order', {
     "userId": DataTypes.INTEGER,
     "businessId": DataTypes.INTEGER,
+  
+    "status": DataTypes.STRING
 }, {
     timestamps: true,
     createdAt: 'createdAt',
