@@ -50,9 +50,10 @@ export const createPreference = async (data) => {
         // Si es pending = true, se pone un spinner
         // "success": "rescueapp://checkout/mercadopago/?success=true",
         //"success": "myapp://login-screen",
+        //"success": "myapp://screens/checkout/success",
         "success": "myapp://screens/checkout/success",
-        "failure": "rescue://checkout/mercadopago/?success=false",
-        "pending": "rescue://checkout/mercadopago/?pending=true",
+        "failure": "rescueapp://checkout/mercadopago/?success=false",
+        "pending": "rescueapp://checkout/mercadopago/?pending=true",
       },
 
       "auto_return": "approved",
