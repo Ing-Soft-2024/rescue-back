@@ -1,6 +1,6 @@
 name: Tests
 on:
-  pre-push:
+  commit:
     branches: [ main, master, development ]
 jobs:
   test:
