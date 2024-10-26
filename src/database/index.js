@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
     username: process.env.DB_USER ?? 'postgres',
     password: process.env.DB_PASSWORD ?? 'postgres',
     host: process.env.DB_HOST ?? 'localhost',
-    port: process.env.DB_PORT ?? 5432,
+    port: process.env.DB_PORT ?? 5437,
 });
 
 const associateModels = async () => {
@@ -47,8 +47,9 @@ const associateModels = async () => {
 }
 
 const createDatabaseIfNotExists = async () => {
+    console.log("createDatabaseIfNotExists");
     pg.call(sequelize.queryInterface, 'createSchemaIfNotExists', {
-        "schemaName": process.env.DB_NAME,
+        "schemaName": process.env.DB_NAME ?? 'rescue',
     });
 }
 
@@ -62,7 +63,6 @@ const initDatabase = async () => {
         process.exit(1);
     });
     console.log('Models associated!');
-
     await sequelize.sync().catch((err) => {
         console.error(err);
         process.exit(1);

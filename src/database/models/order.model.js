@@ -22,6 +22,15 @@ class OrderModel extends Model {
         type: 'integer',
     })
     businessId;
+
+
+    @ApiModelProperty({
+        description: 'order state',
+        required: false,
+        example: "in progress",
+        type: 'string',
+    })
+    status;
 }
 
 /**
@@ -32,6 +41,8 @@ class OrderModel extends Model {
 const Order = sequelize.define('order', {
     "userId": DataTypes.INTEGER,
     "businessId": DataTypes.INTEGER,
+  
+    "status": DataTypes.STRING
 }, {
     timestamps: true,
     createdAt: 'createdAt',
@@ -45,7 +56,7 @@ const Order = sequelize.define('order', {
  * @param {*} models 
  */
 Order.associate = function (models) {
-    Order.belongsToMany(models.business, { through: models.order_business_status, foreignKey: 'orderId' });
+    Order.belongsTo(models.business, { foreignKey: 'businessId' });
     Order.hasMany(models.order_item, { foreignKey: 'orderId' });
 }
 

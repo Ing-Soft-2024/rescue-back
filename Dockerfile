@@ -5,7 +5,7 @@ WORKDIR /app
 FROM base as development
 COPY package*.json ./
 ## ADDING PATCHES
-COPY ./patches ./patches
+
 
 # ADDING DEPENDENCIES AND SOURCE
 RUN npm i --include prod

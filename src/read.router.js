@@ -45,6 +45,7 @@ export default async function readRouter(app, params = {
                 Boolean(module.POST) && app.post(apiPath, module.POST);
                 Boolean(module.PUT) && app.put(apiPath, module.PUT);
                 Boolean(module.DELETE) && app.delete(apiPath, module.DELETE);
+                Boolean(module.PATCH) && app.patch(apiPath, module.PATCH);
 
                 console.log(`Route ${process.env.API_URL}${apiPath} :`, module);
             })

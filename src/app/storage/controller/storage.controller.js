@@ -17,12 +17,15 @@ export const getBlobData = async (blobName) => {
         console.error(err);
         throw new Error('Error al obtener el archivo');
     });
+
+    console.log("response: ", response);
     const blockBlob = response[0];
 
-    // Blob to Base64
-    const arrayBuffer = await blockBlob.arrayBuffer();
-    const base64File = arrayBuffer.toString('base64');
+    const download = await blockBlob.download();
+    console.log("download: ", download);
 
+    // const base64File = arrayBuffer.toString('base64');
+    return download[0].toString('base64');
     return base64File;
 };
 
