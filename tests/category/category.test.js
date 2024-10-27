@@ -1,15 +1,15 @@
-const CategoryMock = jest.mock("database/models/category.model", () => {
-    // Initialize SequelizeMock and define the CategoryMock model within the jest.mock scope
-    const SequelizeMock = require('sequelize-mock');
-    const dbMock = new SequelizeMock();
-    const category=  dbMock.define('Category', {
-        id: 1,
-        name: 'Comida',
-        description: 'Comida'
-    });
+// const CategoryMock = jest.mock("database/models/category.model", () => {
+//     // Initialize SequelizeMock and define the CategoryMock model within the jest.mock scope
+//     const SequelizeMock = require('sequelize-mock');
+//     const dbMock = new SequelizeMock();
+//     const category=  dbMock.define('Category', {
+//         id: 1,
+//         name: 'Comida',
+//         description: 'Comida'
+//     });
     
-    return category;
-});
+//     return category;
+// });
   
 
 // Import your functions after defining the mock
@@ -30,8 +30,8 @@ test('Get categories', async () => {
         });
 });
 
-// test('Get category by id', async () => {
-//     const category = await getCategoryById(1);
-//     expect(category.name).toBe('Comida');
-//     expect(category.description).toBe('Comida');
-// });
+test('Get category by id', async () => {
+    const category = await getCategoryById(1);
+    expect(category.name).toBe('Comida');
+    expect(category.description).toBe('Comida');
+});

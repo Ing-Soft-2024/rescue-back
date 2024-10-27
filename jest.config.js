@@ -7,4 +7,5 @@ module.exports = {
         "^.+\\.jsx?$": "babel-jest"
       },
     setupFiles: ['./jest.modules.js'],
+   
 }

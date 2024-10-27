@@ -30,9 +30,10 @@
                     "./src"
                 ],
                 "alias": {
-                    "@/app": "./src/app",
+                    "app": "./src/app",
                     "@/lib": "./src/lib",
-                    "@/utils": "./src/utils"
+                    "@/utils": "./src/utils",
+                    "database": "./src/database"
                 }
             }
         ],
