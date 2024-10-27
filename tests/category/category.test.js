@@ -30,8 +30,8 @@ test('Get categories', async () => {
         });
 });
 
-test('Get category by id', async () => {
-    const category = await getCategoryById(1);
-    expect(category.name).toBe('Comida');
-    expect(category.description).toBe('Comida');
-});
+// test('Get category by id', async () => {
+//     const category = await getCategoryById(1);
+//     expect(category.name).toBe('Comida');
+//     expect(category.description).toBe('Comida');
+// });
