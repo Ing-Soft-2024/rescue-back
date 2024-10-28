@@ -15,6 +15,8 @@
 // Import your functions after defining the mock
 const { getCategories } = require("app/categories/controller/categories.get");
 const { getCategoryById } = require("app/categories/[id]/controller/category.get");
+const { getCommerceById }= require("app/commerce/[id]/controller/commerce.get");
+
 
 test('Get categories', async () => {
     await getCategories()
@@ -27,6 +29,22 @@ test('Get categories', async () => {
         })
         .catch((err) => {
             expect(err).toBe("Error while fetching categories");
+        });
+});
+
+test('Get commerce by id', async () => {
+    await getCommerceById(1)
+        .then((commerce) => {
+            console.log("Commerce: ", commerce);
+            expect(commerce.name).toBe('Comercio');
+            expect(commerce.address).toBe('Comercio address');
+            expect(commerce.city).toBe('Comercio city');
+            expect(commerce.country).toBe('Comercio country');
+            expect(commerce.latitude).toBe(10);
+            expect(commerce.longitude).toBe(10);
+        })
+        .catch((err) => {
+            console.error("Error fetching commerce by id:", err);
         });
 });
 
