@@ -4,29 +4,25 @@ import { getCommerces } from "app/commerce/controller/commerces.get";
 import Business from "database/models/business.model";
 const { getCommerceById }= require("app/commerce/[id]/controller/commerce.get");
 
-// const getCommerceById = require("app/commerce/[id]/controller/commerce.get").getCommerceById;
-// const addCommerce = require("app/commerce/controller/commerce.add").addCommerce;
 
 
 
 let globalCommerce;
 describe('Commerce Tests', () => {
 
-    // beforeAll(async () => {
-    //     globalCommerce = await addCommerce({
-    //         name: 'Comercio',
-    //         address: 'Comercio address',
-    //         city: 'Comercio city',
-    //         country: 'Comercio country',
-    //         latitude: 10,
-    //         longitude: 10
-    //     })
-
-    //  // console.log("Global commerce: ", globalCommerce);
-    // })
+    beforeAll(async () => {
+        globalCommerce = await addCommerce({
+            name: 'Comercio',
+            address: 'Comercio address',
+            city: 'Comercio city',
+            country: 'Comercio country',
+            latitude: 10,
+            longitude: 10
+        })
+    })
 
     test('Get commerce by id', async () => {
-        await getCommerceById(1)
+        await getCommerceById(globalCommerce.id)
             .then((commerce) => {
                 console.log("Commerce: ", commerce);
                 expect(commerce.name).toBe('Comercio');
