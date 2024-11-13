@@ -1,5 +1,6 @@
 import { ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
+import { loginOrRegister } from "./controller/loginOrRegister.controller";
 
 @ApiPath({
     name: "Credentials",
@@ -22,5 +23,5 @@ export default class CredentialsController {
             200: "Success",
         }
     })
-    POST = (req, res) => responseFormula(res, login(req.body));
+    POST = (req, res) => responseFormula(res, loginOrRegister(req.body));
 }

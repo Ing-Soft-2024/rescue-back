@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase-admin/app";
+import { cert, initializeApp } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -14,7 +14,13 @@ const firebaseConfig = {
     "measurementId": process.env.FIREBASE_MEASUREMENT_ID
 };
 
+
+const serviceAccount = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+
 // Initialize Firebase
 // Production
-export const app = initializeApp(firebaseConfig);
+export const app = initializeApp({
+    credential: cert(serviceAccount),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+});
 export const storage = getStorage();
