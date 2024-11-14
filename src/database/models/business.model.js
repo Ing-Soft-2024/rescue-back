@@ -54,6 +54,30 @@ class BusinessModel extends Model {
         type: 'number',
     })
     longitude;
+
+    @ApiModelProperty({
+        description: 'ordersRated',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    ordersRated;
+
+    @ApiModelProperty({
+        description: 'ratingSum',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    ratingSum;
+
+    @ApiModelProperty({
+        description: 'avgRating',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    avgRating;
 }
 
 /**
@@ -69,6 +93,9 @@ const Business = sequelize.define('business', {
 
     "latitude": DataTypes.DECIMAL,
     "longitude": DataTypes.DECIMAL,
+    "ordersRated": DataTypes.DECIMAL,
+    "ratingSum": DataTypes.DECIMAL,
+    "avgRating": DataTypes.FLOAT,
 }, {
     timestamps: true,
     createdAt: 'createdAt',
