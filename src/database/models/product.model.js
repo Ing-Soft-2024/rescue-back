@@ -82,6 +82,7 @@ const Product = sequelize.define('product', {
 Product.associate = function (models) {
     Product.belongsToMany(models.category, { through: models.product_categories, foreignKey: 'productId' });
     Product.belongsToMany(models.user, { through: models.user_favorite_product, foreignKey: 'productId' });
+    Product.belongsTo(models.business, { foreignKey: 'businessId' });
 }
 
 export default Product;
