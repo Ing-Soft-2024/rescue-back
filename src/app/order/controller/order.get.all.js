@@ -11,7 +11,8 @@ export const getListOfOrders = async (userId, businessId) => {
         where: {
             "userId": userId ?? null,
             "businessId": businessId ?? null,
-        }
+        },
+        order: [['createdAt', 'DESC']]
     }).catch((err) => {
         console.error(err);
         throw new Error("Error al obtener las órdenes");
