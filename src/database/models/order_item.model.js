@@ -62,7 +62,7 @@ const OrderItem = sequelize.define('order_item', {
  * @param {*} models 
  */
 OrderItem.associate = function (models) {
-    OrderItem.hasOne(models.product, { foreignKey: 'productId' });
+    OrderItem.belongsTo(models.product, { foreignKey: 'productId'});
 }
 
 export default OrderItem;
