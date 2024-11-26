@@ -37,6 +37,9 @@ export default class CommerceDetailsController {
 
     @ApiOperationPatch({
         description: "Update commerce rating",
+        example: {
+            "rating": 4,
+        },
         parameters: {
             path: {
                 id: {
