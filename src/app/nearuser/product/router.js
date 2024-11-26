@@ -20,6 +20,11 @@ export default class NearProductsController {
                     description: "Id of the category",
                     required: false,
                 },
+                "search": {
+                    type: 'string',
+                    description: "Search term",
+                    required: false,
+                },
                 "userLatitude": {
                     type: 'number',
                     description: "Latitude of the user",
@@ -38,7 +43,7 @@ export default class NearProductsController {
     })
     GET = (req, res) => responseFormula(
         res,
-        getNearProducts(req.query.categoryId, req.query.userLatitude, req.query.userLongitude)
+        getNearProducts(req.query.categoryId, req.query.userLatitude, req.query.userLongitude, req.query.search)
     );
 
 

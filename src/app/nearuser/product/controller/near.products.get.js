@@ -3,14 +3,16 @@ import Category from "database/models/category.model";
 import Product from "database/models/product.model";
 import Business from "database/models/business.model";
 
-export const getNearProducts = async (categoryId, userLongitude, userLatitude) => {
+import levenshtein from "js-levenshtein";
+
+export const getNearProducts = async (categoryId, userLongitude, userLatitude, search) => {
     const where = {
         categoryId: categoryId ?? null,
-        deletedAt: null
+        deletedAt: null,
     };
     if (!categoryId) delete where.categoryId;
 
-    const products = await Product.findAll({
+    let products = await Product.findAll({
         include: [
             {
                 model: Category,
@@ -30,6 +32,14 @@ export const getNearProducts = async (categoryId, userLongitude, userLatitude) =
         ],
         where
     });
+    if (search) {
+        const searchLower = search.toLowerCase();
+        products = products.filter(product => {
+            const productName = product.name.toLowerCase();
+            const distance = levenshtein(searchLower, productName);
+            return distance < 3; // Adjust the threshold as needed
+        });
+    }
     
     console.log(products);
     return products;
