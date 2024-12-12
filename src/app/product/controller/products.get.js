@@ -18,6 +18,7 @@ export const getListOfProducts = async (categoryId, businessId) => {
         }],
         where
     });
+    console.log(products);
 
     return products;
 }
