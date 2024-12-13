@@ -9,7 +9,5 @@ export const addProduct = async (data) => {
             throw new Error("Error al agregar el producto");
         });
 
-        console.log(product.product_id);
-
     return product;
 }

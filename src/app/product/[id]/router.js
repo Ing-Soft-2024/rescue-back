@@ -53,7 +53,7 @@ export default class ProductDetailsController {
             200: "Success",
         }
     })
-    POST = (req, res) => responseFormula(res, editProduct(req.params.id, req.params.body));
+    POST = (req, res) => responseFormula(res, editProduct(req.params.id, req.body));
 
     @ApiOperationDelete({
         description: "Delete a product",
