@@ -15,13 +15,8 @@ export const postOrder =async (data) => {
         });
 
     const orderItems = await OrderItem.bulkCreate(cart.map(async (item) => {
-        console.log("ITEM: ", item.product);
-        console.log("PRODUCTID: ",item.product.id);
         const product = await Product.findByPk(item.product.id);
-        console.log("PRODUCT: ",product);
-        if(!product){
-            throw new Error("Product not found");
-        }
+        if(!product) throw new Error("Product not found");
         product.stock = product.stock - item.quantity;
         await product.save();
         return {
