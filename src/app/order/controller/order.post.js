@@ -1,5 +1,7 @@
 import Order from "database/models/order.model";
 import OrderItem from "database/models/order_item.model";
+import Product from "database/models/product.model";
+
 
 export const postOrder =async (data) => {
     console.log("data: ",data);
@@ -12,8 +14,16 @@ export const postOrder =async (data) => {
             throw new Error("Error al crear el pedido");
         });
 
-    const orderItems = await OrderItem.bulkCreate(cart.map((item) => {
-        console.log("item: ", item.product);
+    const orderItems = await OrderItem.bulkCreate(cart.map(async (item) => {
+        console.log("ITEM: ", item.product);
+        console.log("PRODUCTID: ",item.product.id);
+        const product = await Product.findByPk(item.product.id);
+        console.log("PRODUCT: ",product);
+        if(!product){
+            throw new Error("Product not found");
+        }
+        product.stock = product.stock - item.quantity;
+        await product.save();
         return {
             "orderId": order.id,
             "productId": item.product.id,

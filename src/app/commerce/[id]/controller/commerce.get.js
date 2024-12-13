@@ -17,5 +17,6 @@ export const getCommerceById = async (id) => {
     });
 
     if (!commerce) throw new Error("No se encontró el comercio");
+    console.log("COMMERCE GET", commerce);
     return commerce;
 }
