@@ -1,34 +1,65 @@
-import { verifyToken } from "./verifyToken";
+import jwt from 'jsonwebtoken';
 
 export function Authorization() {
-    return (target, propertyKey, descriptor) => {
-        const originalInitializer = descriptor.initializer;
-        descriptor.initializer = () => {
+    return function (target, propertyKey, descriptor) {
+        const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+        const originalMethod = descriptor.value;
 
-            /**
-             * @param {Request} req
-             * @param {Response} res
-             */
-            return async (req, res) => {
-                const decoded = verifyToken(req, process.env.JWT_SECRET);
-                req.session = decoded;
+        descriptor.value = async function (req, res) {
+            console.log('[=============== Authorization Middleware: AUTHORIZATION ===============]');
+            console.log('[Endpoint]: ', req.url);
+            
+            try {
+                const authHeader = req.headers.authorization;
+                if (!authHeader) {
+                    console.log('[Authorization]: No auth header');
+                    return res.status(401).json({
+                        message: 'No authorization header provided'
+                    });
+                }
 
-                console.log('[=============== Authorization Middleware ===============]');
-                console.log('[Endpoint]: ', req.originalUrl);
-                console.log('[User]: ', req.session.user);
-                console.log('[Authorized?]: ', Boolean(decoded));
-                console.log('[Headers]: ', req.headers);
-                console.log('[Body]: ', req.body);
-                console.log('[Params]: ', req.params);
-                console.log('[Query]: ', req.query);
+                // Split 'Bearer <token>'
+                const [bearer, token] = authHeader.split(' ');
+                
+                if (bearer !== 'Bearer' || !token) {
+                    console.log('[Authorization]: Invalid auth format');
+                    return res.status(401).json({
+                        message: 'Invalid authorization format'
+                    });
+                }
+
+                try {
+                    // Verify token
+                    const decoded = jwt.verify(token, JWT_SECRET);
+                    if (!decoded) {
+                        console.log('[Authorization]: Token verification failed');
+                        return res.status(401).json({
+                            message: 'Invalid token'
+                        });
+                    }
+                    
+                    req.user = decoded;
+                    console.log('[User]: ', decoded);
+                    console.log('[Authorized?]: true');
+                } catch (jwtError) {
+                    console.log('[JWT Error]: ', jwtError.message);
+                    return res.status(401).json({
+                        message: 'Invalid or expired token'
+                    });
+                }
+
+                return await originalMethod.apply(this, [req, res]);
+            } catch (error) {
+                console.error('[Authorization error]:', error);
+                return res.status(401).json({
+                    message: 'Authorization failed',
+                    error: error.message
+                });
+            } finally {
                 console.log('[================ End of Authorization  =================]');
-                if (!decoded) return res.status(401).json({ "message": 'No tienes permisos' });
-
-                const originalMethod = await originalInitializer().bind(this, req, res);
-                return originalMethod(req, res);
-            };
-        }
+            }
+        };
 
         return descriptor;
-    }
+    };
 }

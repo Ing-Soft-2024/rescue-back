@@ -63,34 +63,23 @@ export const createPreference = async (data) => {
   // };
 
   console.log("items", items);
-
   const preference = new Preference(client);
   const result = await preference.create({
     body: {
       items,
       "back_urls":
       {
-        // Cambio de url empieza con rescue://
-        // Si empieza con rescue:// me fjo si trae algún parámetro
-        // Si es success = true, se redirige al success
-        // Si es success = false, se redirige al failure
-        // Si es pending = true, se pone un spinner
-        // "success": "rescueapp://checkout/mercadopago/?success=true",
-        //"success": "myapp://login-screen",
-        //"success": "myapp://screens/checkout/success",
         "success": "myapp://screens/checkout/?success=true",
         "failure": "myapp://screens/checkout/?failure=true",
         "pending": "myapp://screens/checkout/?pending=true",
       },
-
       "auto_return": "approved",
+      
     }
   }).catch((err) => {
     console.error(err);
     throw new Error("Error al crear la preferencia");
   });
-
-  console.log("return: ", result);
 
   return {
     checkoutURL: result.init_point

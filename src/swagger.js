@@ -1,5 +1,5 @@
 import express from "express";
-import * as swagger from "swagger-express-decorators";
+import * as swagger from "swagger-express-ts";
 import SwaggerUI from "swagger-ui-express";
 
 const createApplicaton = () => {
@@ -28,6 +28,7 @@ const createApplicaton = () => {
                             'in': 'header'
                         }
                     },
+                    'security': [{ 'Bearer': [] }],
                     'responses': {
                         '200': 'Success',
                         '400': {

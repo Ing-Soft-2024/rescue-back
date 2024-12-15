@@ -1,4 +1,4 @@
-import { ApiOperationGet, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { getNearProducts } from "./controller/near.products.get";
 
