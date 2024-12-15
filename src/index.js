@@ -7,6 +7,7 @@ import { swaggerJSON } from "swagger-express-decorators/express.configurator.js"
 import swaggerUI from "swagger-ui-express";
 import readRouter from "./read.router.js";
 import swagger from "./swagger.js";
+import { authenticateToken } from "./middleware/auth.middleware.js";
 
 dotenv.config();
 const app = swagger();

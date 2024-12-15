@@ -28,6 +28,7 @@ const createApplicaton = () => {
                             'in': 'header'
                         }
                     },
+                    'security': [{ 'Bearer': [] }],
                     'responses': {
                         '200': 'Success',
                         '400': {

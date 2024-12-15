@@ -2,6 +2,9 @@ import { ApiOperationGet,ApiOperationPost, ApiPath } from "swagger-express-decor
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
 import { postOrder } from "./controller/order.post";
+import { authenticateToken } from "../../middleware/auth.middleware";
+import { Authorization } from "utils/jwt/authorization.decorator";
+
 @ApiPath({
     name: "Orders",
     path: "/order",
@@ -12,6 +15,7 @@ export default class OrdersController {
     @ApiOperationGet({
         description: "Get list of orders",
         summary: "Get list of orders",
+        security: [{ Bearer: [] }],
         parameters: {
             query: {
                 "userId": {
@@ -29,9 +33,17 @@ export default class OrdersController {
         responses: {
             200: {
                 description: "Success",
+            },
+            401: {
+                description: "Unauthorized",
+            },
+            403: {
+                description: "Forbidden",
             }
         },
+        
     })
+    @Authorization()
     GET = (req, res) => responseFormula(res, getListOfOrders(
         req.query.userId,
         req.query.businessId
@@ -39,20 +51,36 @@ export default class OrdersController {
 
     @ApiOperationPost({
         description: "Post order",
-            parameters: {
-                body: {
-                    description: "create Order with id",
-                    required: true,
-                    model: "Order",
-                },
+        security: [{ Bearer: [] }],
+        parameters: {
+            body: {
+                description: "create Order with id",
+                required: true,
+                model: "Order",
             },
-        summary: "Create an order ",
+            header: {
+                "Authorization": {
+                    type: "string",
+                    description: "Bearer token",
+                    required: true
+                }
+            }
+        },
+        summary: "Create an order",
         responses: {
             200: {
                 description: "Success",
                 model: "Order",
+            },
+            401: {
+                description: "Unauthorized",
+            },
+            403: {
+                description: "Forbidden",
             }
         },
+        
     })
-    POST = (req, res) => responseFormula(res, postOrder(req.body));
+    @Authorization()
+    POST = (req, res) => responseFormula(res, postOrder(req.body, req.user));
 }
