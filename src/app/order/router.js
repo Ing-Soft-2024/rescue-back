@@ -1,8 +1,9 @@
-import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
-import { Authorization } from "utils/jwt/authorization.decorator";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
 import { postOrder } from "./controller/order.post";
+import { authenticateToken } from "../../middleware/auth.middleware";
+import { Authorization } from "utils/jwt/authorization.decorator";
 
 @ApiPath({
     name: "Orders",
@@ -45,7 +46,6 @@ export default class OrdersController {
                 description: "Forbidden",
             }
         },
-        
     })
     @Authorization()
     GET = (req, res) => responseFormula(res, getListOfOrders(
@@ -54,37 +54,22 @@ export default class OrdersController {
     ));
 
     @ApiOperationPost({
-        description: "Post order",
+        description: "Create order",
+        summary: "Create order",
         security: [{ Bearer: [] }],
         parameters: {
             body: {
-                description: "create Order with id",
+                description: "Order object",
                 required: true,
-                model: "Order",
-            },
-            header: {
-                "Authorization": {
-                    type: "string",
-                    description: "Bearer token",
-                    required: true
-                }
+                model: "Order"
             }
         },
-        summary: "Create an order",
         responses: {
             200: {
                 description: "Success",
-                model: "Order",
-            },
-            401: {
-                description: "Unauthorized",
-            },
-            403: {
-                description: "Forbidden",
             }
-        },
-        
+        }
     })
     @Authorization()
-    POST = (req, res) => responseFormula(res, postOrder(req.body, req.user));
+    POST = (req, res) => responseFormula(res, postOrder(req.body));
 }

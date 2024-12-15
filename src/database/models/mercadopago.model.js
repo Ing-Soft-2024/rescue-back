@@ -3,60 +3,64 @@ import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 import { sequelize } from "../index";
 
 @ApiModel({
-    name: 'Category',
-    description: 'Category model',
+    name: 'MercadoPago',
+    description: 'MercadoPago model',
 })
 class MercadoPagoModel extends Model {
     @ApiModelProperty({
-        description: 'Name',
+        description: 'Order ID',
         required: true,
-        example: 'Category name',
-        type: 'string',
+        example: 1,
+        type: 'integer',
     })
-    access_token;
+    orderId;
 
     @ApiModelProperty({
-        description: 'Description',
+        description: 'Payment ID',
         required: true,
-        example: 'Category description',
+        example: '12345678',
         type: 'string',
     })
-    refresh_token;
+    paymentId;
 
     @ApiModelProperty({
-        description: 'Description',
+        description: 'Status',
         required: true,
-        example: 'Category description',
+        example: 'approved',
         type: 'string',
     })
-    expires_in;
+    status;
 }
 
-/**
- * 
- * @param {Sequelize} sequelize
- * @param {Sequelize.DataTypes} DataTypes 
- */
 const MercadoPago = sequelize.define('mercadopago', {
-    "access_token": DataTypes.TEXT,
-    "refresh_token": DataTypes.TEXT,
-    "expires_in": DataTypes.INTEGER,
-    "commerceId": DataTypes.INTEGER,
+    orderId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    paymentId: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 }, {
     timestamps: true,
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-
-    tableName: 'categories',
+    tableName: 'mercadopago',
 });
 
-/**
- * 
- * @param {*} models 
- */
-MercadoPago.associate = function (models) {
-    MercadoPago.hasMany(models.commerce, { foreignKey: 'commerceId' });
-}
+MercadoPago.associate = function(models) {
+    // Make sure we're using the correct model name and it exists
+    if (models.order) {
+        MercadoPago.belongsTo(models.order, {
+            foreignKey: 'orderId',
+            as: 'order'
+        });
+    }
+};
 
 export default MercadoPago;
 export { MercadoPago };

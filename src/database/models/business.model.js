@@ -83,8 +83,8 @@ class BusinessModel extends Model {
     @ApiModelProperty({
         description: 'userId',
         required: true,
-        example: 10,
-        type: 'number',
+        example: "user@example.com",
+        type: 'string',
     })
     userId;
 }
