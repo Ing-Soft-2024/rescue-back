@@ -1,0 +1,13 @@
+diff --git a/node_modules/swagger-express-ts/api-model-property.decorator.js b/node_modules/swagger-express-ts/api-model-property.decorator.js
+index 8c18213..a139109 100644
+--- a/node_modules/swagger-express-ts/api-model-property.decorator.js
++++ b/node_modules/swagger-express-ts/api-model-property.decorator.js
+@@ -4,7 +4,7 @@ exports.ApiModelProperty = void 0;
+ var swagger_service_1 = require("./swagger.service");
+ function ApiModelProperty(args) {
+     return function (target, propertyKey) {
+-        var propertyType = Reflect.getMetadata('design:type', target, propertyKey).name;
++        var propertyType = Reflect.getMetadata('design:type', target, propertyKey)?.name;
+         swagger_service_1.SwaggerService.getInstance().addApiModelProperty(args, target, propertyKey, propertyType);
+     };
+ }

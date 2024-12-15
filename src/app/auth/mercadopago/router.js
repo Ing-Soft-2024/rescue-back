@@ -1,17 +1,9 @@
-
-
-
-
-import { ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { ApiOperationPost } from "swagger-express-ts";
+import { Authorization } from "utils/jwt/authorization.decorator";
 import { responseFormula } from "utils/response.util";
-import { createPreference } from "./controller/mercadoPago";
+import { authenticateOnMercadoPago } from "./controller/auth";
 
-@ApiPath({
-    name: "CheckoutPro",
-    path: "/checkout/mercadopago",
-    description: "Module to manage Mercado Pago checkout.",
-})
-export default class CheckoutController {
+export default class MercadoPagoController {
     @ApiOperationPost({
         description: "CheckoutPro example",
         summary: "CheckoutPro example",
@@ -26,5 +18,9 @@ export default class CheckoutController {
             200: "Success",
         },
     })
-    POST = (req, res) => responseFormula(res, createPreference(req.body));
+    @Authorization()
+    POST = (req, res) => responseFormula(res, authenticateOnMercadoPago(
+        req.session,
+        req.body    
+    ));
 }

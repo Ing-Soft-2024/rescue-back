@@ -1,8 +1,7 @@
-import { ApiOperationGet,ApiOperationPost,ApiOperationPatch, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiOperationPatch, ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { getOrderById } from "./controller/order.get";
 import { postOrderItem } from "./controller/order.item.post";
-import { type } from "os";
 import { updateOrderStatus } from "./controller/order.update";
 
 @ApiPath({

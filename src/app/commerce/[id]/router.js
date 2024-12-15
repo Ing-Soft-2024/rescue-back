@@ -1,9 +1,8 @@
-import { ApiOperationGet, ApiOperationPatch, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiOperationPatch, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { getCommerceById } from "./controller/commerce.get";
 import { updateCommerceRating } from "./controller/commerce.rating.update";
 
-import { type } from "os";
 
 @ApiPath({
     name: "CommerceDetails",

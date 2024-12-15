@@ -1,4 +1,4 @@
-import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
+import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { deleteProduct } from "./controller/product.delete";
 import { editProduct } from "./controller/product.edit";

@@ -6,14 +6,14 @@ import { sequelize } from "../index";
     name: 'Category',
     description: 'Category model',
 })
-class CategoryModel extends Model {
+class MercadoPagoModel extends Model {
     @ApiModelProperty({
         description: 'Name',
         required: true,
         example: 'Category name',
         type: 'string',
     })
-    name;
+    access_token;
 
     @ApiModelProperty({
         description: 'Description',
@@ -21,7 +21,15 @@ class CategoryModel extends Model {
         example: 'Category description',
         type: 'string',
     })
-    description;
+    refresh_token;
+
+    @ApiModelProperty({
+        description: 'Description',
+        required: true,
+        example: 'Category description',
+        type: 'string',
+    })
+    expires_in;
 }
 
 /**
@@ -29,9 +37,11 @@ class CategoryModel extends Model {
  * @param {Sequelize} sequelize
  * @param {Sequelize.DataTypes} DataTypes 
  */
-const Category = sequelize.define('category', {
-    "name": DataTypes.TEXT,
-    "description": DataTypes.TEXT,
+const MercadoPago = sequelize.define('mercadopago', {
+    "access_token": DataTypes.TEXT,
+    "refresh_token": DataTypes.TEXT,
+    "expires_in": DataTypes.INTEGER,
+    "commerceId": DataTypes.INTEGER,
 }, {
     timestamps: true,
     createdAt: 'createdAt',
@@ -44,8 +54,9 @@ const Category = sequelize.define('category', {
  * 
  * @param {*} models 
  */
-Category.associate = function (models) {
+MercadoPago.associate = function (models) {
+    MercadoPago.hasMany(models.commerce, { foreignKey: 'commerceId' });
 }
 
-export default Category;
-export { Category };
+export default MercadoPago;
+export { MercadoPago };

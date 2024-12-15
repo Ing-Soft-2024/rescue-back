@@ -4,17 +4,19 @@ import { sequelize } from "../index";
  * 
  * @param {Sequelize} sequelize
  * @param {Sequelize.DataTypes} DataTypes 
+ * 
+ * 
  */
 
 const User = sequelize.define('user', {
     "firstName": DataTypes.TEXT,
     "lastName": DataTypes.TEXT,
-    "dateOfBirth": DataTypes.DATE,
-    "phoneNumber": DataTypes.TEXT,
-
+    "email": {
+        type: DataTypes.TEXT,
+        unique: true // Add unique constraint
+    },
     "address": DataTypes.TEXT,
     "city": DataTypes.TEXT,
-    "state": DataTypes.TEXT,
     "country": DataTypes.TEXT,
 }, {
     timestamps: true,
@@ -33,6 +35,10 @@ User.associate = function (models) {
     // User.hasMany(models.user_favorite_business, { foreignKey: 'userId' });
 
     User.hasMany(models.order, { foreignKey: 'userId' });
+    User.hasOne(models.user_auth, { 
+        foreignKey: 'userId',
+        as: 'userAuth'  // This alias must match the 'as' in your include statement
+    });
 }
 
 export default User;

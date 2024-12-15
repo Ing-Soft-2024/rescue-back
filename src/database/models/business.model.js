@@ -1,5 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { ApiModel, ApiModelProperty } from "swagger-express-decorators";
+import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 import { sequelize } from "../index";
 
 @ApiModel({
@@ -78,6 +78,15 @@ class BusinessModel extends Model {
         type: 'number',
     })
     avgRating;
+
+
+    @ApiModelProperty({
+        description: 'userId',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    userId;
 }
 
 /**
