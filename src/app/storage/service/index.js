@@ -15,6 +15,8 @@ const firebaseConfig = {
 };
 
 
+
+
 const serviceAccount = JSON.parse(process.env.GOOGLE_CREDENTIALS);
 
 // Initialize Firebase

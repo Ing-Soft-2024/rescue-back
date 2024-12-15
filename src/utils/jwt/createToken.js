@@ -1,14 +1,23 @@
+import jwt from 'jsonwebtoken';
+
 export const createToken = async (user) => {
     if (!user) return null;
 
-    const token = await jsonwebtoken.sign({
-        session: {
-
-        },
-        user: user,
+    const token = jwt.sign({
+        user: {
+            id: user.id,
+            email: user.email,
+            role: user.role || 'user'
+        }
     }, process.env.JWT_SECRET, {
-        expiresIn: '1h'
+        expiresIn: '24h'
     });
 
-    return token;
+    return {
+        token,
+        user: {
+            id: user.id,
+            email: user.email
+        }
+    };
 }

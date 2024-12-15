@@ -2,13 +2,18 @@ import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-deco
 import { responseFormula } from "utils/response.util";
 import { addProduct } from "./controller/products.add";
 import { getListOfProducts } from "./controller/products.get";
-
+import { authMiddleware } from '../../middleware/auth.middleware';
 @ApiPath({
     name: "Products",
     path: "/product",
     description: "Module to manage products.",
 })
 export default class ProductsController {
+
+    constructor() {
+        // Add middleware to protect routes
+        this.GET = [authMiddleware, this.GET];
+    }
 
     @ApiOperationGet({
         description: "Get list of products",
