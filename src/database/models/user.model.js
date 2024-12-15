@@ -11,6 +11,10 @@ import { sequelize } from "../index";
 const User = sequelize.define('user', {
     "firstName": DataTypes.TEXT,
     "lastName": DataTypes.TEXT,
+    "email": {
+        type: DataTypes.TEXT,
+        unique: true // Add unique constraint
+    },
     "address": DataTypes.TEXT,
     "city": DataTypes.TEXT,
     "country": DataTypes.TEXT,

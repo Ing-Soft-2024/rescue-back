@@ -5,12 +5,21 @@ import { User } from '../../../../database/models/user.model';
 import { UserAuth } from '../../../../database/models/user_auth.model';
 
 export const login = async (data) => {
+  console.log("------LOGIN CONTROLLER: LOGIN------")
   const JWT_SECRET = process.env.JWT_SECRET || 'secret';
   try {
     const { email, password } = data;
+    console.log("email: ", email)
+    console.log("password: ", password)
 
-    // Find user by email
-    const user = await User.findOne({ email, 
+    // Normalize email (convert to lowercase and trim)
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Find user by email with explicit where clause
+    const user = await User.findOne({ 
+      where: { 
+        email: normalizedEmail
+      },
       include: [
         {
           model: UserAuth,
@@ -19,13 +28,13 @@ export const login = async (data) => {
         },
       ],
     });
-    
+
     // If user doesn't exist
     if (!user || !user.userAuth) {
       throw new Error('User not found');
     }
 
-     // Add debug logs
+    // Add debug logs
     
 
      if (!password || !user.userAuth.passwordHash) {
@@ -83,6 +92,40 @@ export const login = async (data) => {
       },
       token,
     };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const register = async (data) => {
+  console.log("------REGISTER CONTROLLER: REGISTER------")
+  const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+  try {
+    // Normalize email
+    const normalizedEmail = data.email.toLowerCase().trim();
+
+    // Check if user already exists with explicit where clause
+    const existingUser = await User.findOne({ 
+      where: { 
+        email: normalizedEmail 
+      }
+    });
+
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
+    // Create new user with normalized email
+    const user = await User.create({
+      email: normalizedEmail,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      address: data.address,
+      city: data.city,
+      country: data.country
+    });
+
+    // Rest of the code remains the same
   } catch (error) {
     throw error;
   }

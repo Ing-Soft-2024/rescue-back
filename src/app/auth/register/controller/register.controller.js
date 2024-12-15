@@ -7,10 +7,19 @@ import { UserAuth } from '../../../../database/models/user_auth.model';
 
 
 export const register = async (data) => {
+    console.log("------REGISTER CONTROLLER: REGISTER------")
     const JWT_SECRET = process.env.JWT_SECRET || 'secret';
     try {
+
+        const normalizedEmail = data.email.toLowerCase().trim();
+
         // Check if user already exists
-        const existingUser = await User.findOne({ email: data.email });
+        const existingUser = await User.findOne({ 
+            where: { 
+                email: normalizedEmail 
+            }
+        });
+
         if (existingUser) {
             throw new Error('User already exists');
         }
@@ -21,7 +30,7 @@ export const register = async (data) => {
 
         // Create new user
         const user = await User.create({
-            email: data.email,
+            email: normalizedEmail,
             firstName: data.firstName,
             lastName: data.lastName,
             address: data.address,
@@ -30,7 +39,7 @@ export const register = async (data) => {
         });
         const userAuth = await UserAuth.create({
             userId: user.id,
-            email: data.email,
+            email: normalizedEmail,
             passwordHash: hashedPassword,
             authType: 'local',
             authId: 'local',

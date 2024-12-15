@@ -11,6 +11,11 @@ import { Authorization } from "utils/jwt/authorization.decorator";
     description: "Module to manage orders.",
 })
 export default class OrdersController {
+    constructor() {
+        // Add middleware to all routes in this controller
+        this.GET = [authenticateToken, this.GET];
+        this.POST = [authenticateToken, this.POST];
+    }
 
     @ApiOperationGet({
         description: "Get list of orders",
