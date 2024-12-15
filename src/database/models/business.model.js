@@ -78,6 +78,15 @@ class BusinessModel extends Model {
         type: 'number',
     })
     avgRating;
+
+
+    @ApiModelProperty({
+        description: 'userId',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    userId;
 }
 
 /**
