@@ -4,9 +4,9 @@
   "description": "Template for Koa.js with Directory Structure",
   "main": "src/index.js",
   "scripts": {
-    "build": "node --run clean && babel src -d dist",
+    "build": "npm run clean && babel src -d dist",
     "dev": "nodemon --exec babel-node src/index.js",
-    "serve": "node --run build && node dist/index.js",
+    "serve": "npm run build && node dist/index.js",
     "clean": "rm -rf dist",
     "postinstall": "patch-package",
     "test": "jest",
