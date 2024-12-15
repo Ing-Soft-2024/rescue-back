@@ -14,7 +14,6 @@ if (!process.env['MERCADO_PAGO_ACCESS_TOKEN']) {
 //const client = new MercadoPagoConfig({ accessToken: process.env['MERCADO_PAGO_ACCESS_TOKEN'] });
 export const createPreference = async (data) => {  
   const orderId = data.orderId;
-  const commerceId = data.commerceId;
   const orderItems = await Order.findByPk(orderId, {
     include: [{
       model: OrderItem,
@@ -24,6 +23,7 @@ export const createPreference = async (data) => {
     }],
   });
 
+
   const itemsAsync = orderItems.getDataValue('order_items').map(async (item) => {
     const product = await Product.findByPk(item.productId);
     if (!product) throw new Error("Product not found");
@@ -31,10 +31,17 @@ export const createPreference = async (data) => {
       "title": product.getDataValue('name'),
       "quantity": Number(item.quantity),
       "currency_id": "ARS",
-      "unit_price": Number(item.price)
+      "unit_price": Number(item.price),
+      "commerce_id": commerceId
     };
   });
-  const items = await Promise.all(itemsAsync);
+  let items = await Promise.all(itemsAsync);
+  const commerceId = items[0].commerce_id;
+  items = items.map(item => {
+    delete item.commerce_id;
+    return item;
+  })
+
   const result = await createPreferenceAsync(items, commerceId);
 
   return {
@@ -49,7 +56,7 @@ const createPreferenceAsync = async (commerceId, items) => {
     }
   }).catch(() => { throw new Error("No se pudo obtener la información del comercio") });
   if(!obtainedMercadoPago) throw new Error("No se pudo obtener la información del comercio");
-  
+
   // Agrega credenciales
   const client = new MercadoPagoConfig({ 
     accessToken: obtainedMercadoPago.access_token,
