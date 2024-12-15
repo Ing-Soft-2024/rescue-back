@@ -19,11 +19,11 @@ FROM development as builder
 RUN npx babel src -d dist
 
 FROM base as release
-ENV PORT=80
+ENV PORT=8000
 ENV PRODUCTION=true
 
 COPY --from=builder /tmp/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
-EXPOSE 80
+EXPOSE 8000
 CMD ["node", "./dist/index.js"]
