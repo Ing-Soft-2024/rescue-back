@@ -1,6 +1,9 @@
-import { ApiOperationGet, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiOperationPatch, ApiPath } from "swagger-express-decorators";
 import { responseFormula } from "utils/response.util";
 import { getCommerceById } from "./controller/commerce.get";
+import { updateCommerceRating } from "./controller/commerce.rating.update";
+
+import { type } from "os";
 
 @ApiPath({
     name: "CommerceDetails",
@@ -18,7 +21,9 @@ export default class CommerceDetailsController {
                     description: "Id of the commerce",
                     required: true,
                 }
+                
             }
+        
         },
         summary: "Get commerce by id",
         responses: {
@@ -29,4 +34,33 @@ export default class CommerceDetailsController {
         },
     })
     GET = (req, res) => responseFormula(res, getCommerceById(req.params.id));
+
+    @ApiOperationPatch({
+        description: "Update commerce rating",
+        example: {
+            "rating": 4,
+        },
+        parameters: {
+            path: {
+                id: {
+                    type: 'integer',
+                    description: "Id of the commerce",
+                    required: true,
+                }
+            },
+            body: {
+                type: 'string',
+                description: "Rating",
+                required: true,
+            },
+        },
+        summary: "Update commerce rating",
+        responses: {
+            200: {
+                description: "Success",
+                model: "Business",
+            }
+        },
+    })
+    PATCH = (req, res) => responseFormula(res, updateCommerceRating(req.params.id, req.body));
 }
