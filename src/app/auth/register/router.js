@@ -1,5 +1,5 @@
 // src/app/auth/register/router.js
-import { ApiOperationPost, ApiPath } from "swagger-express-decorators";
+import { ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { register } from "./controller/register.controller";
 

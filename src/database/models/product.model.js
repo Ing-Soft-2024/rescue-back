@@ -1,5 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { ApiModel, ApiModelProperty } from "swagger-express-decorators";
+import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 import { sequelize } from "../index";
 
 /**

@@ -1,4 +1,4 @@
-import { ApiModel, ApiModelProperty } from "swagger-express-decorators";
+import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 
 @ApiModel({
     description: "Login Credentials Model",

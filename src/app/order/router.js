@@ -1,9 +1,8 @@
-import { ApiOperationGet,ApiOperationPost, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { Authorization } from "utils/jwt/authorization.decorator";
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
 import { postOrder } from "./controller/order.post";
-import { authenticateToken } from "../../middleware/auth.middleware";
-import { Authorization } from "utils/jwt/authorization.decorator";
 
 @ApiPath({
     name: "Orders",

@@ -1,4 +1,4 @@
-const { ApiModel, ApiModelProperty } = require("swagger-express-decorators");
+const { ApiModel, ApiModelProperty } = require("swagger-express-ts");
 
 @ApiModel({
     description: 'Modelo de archivo.',
