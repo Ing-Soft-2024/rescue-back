@@ -21,3 +21,5 @@ export class RegisterCredentials {
     })
     password;
 }
+
+export default RegisterCredentials;
