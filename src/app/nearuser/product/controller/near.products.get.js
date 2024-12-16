@@ -37,7 +37,7 @@ export const getNearProducts = async (categoryId, userLongitude, userLatitude, s
         products = products.filter(product => {
             const productName = product.name.toLowerCase();
             const distance = levenshtein(searchLower, productName);
-            return distance < 3; // Adjust the threshold as needed
+            return distance < 6; // Adjust the threshold as needed
         });
     }
     
