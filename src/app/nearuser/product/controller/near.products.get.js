@@ -44,6 +44,8 @@ export const getNearProducts = async (categoryId, userLongitude, userLatitude, s
         ],
         where
     });
+
+    console.log("SEARCH", search);
     if (search) {
         const searchLower = search.toLowerCase();
         products = products.filter(product => {
