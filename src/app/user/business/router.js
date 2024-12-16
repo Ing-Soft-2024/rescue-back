@@ -17,5 +17,5 @@ export default class UserBusinessController {
             200: "Success",
         },
     })
-    GET = (req, res) => responseFormula(res, hasBusiness(req.body));
+    GET = (req, res) => responseFormula(res, hasBusiness(req.query));
 }

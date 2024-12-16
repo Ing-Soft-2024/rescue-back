@@ -1,9 +1,9 @@
 import Business from "database/models/business.model";
-import UserAuth from "database/models/user_auth.model";
+import User from "database/models/user.model";
 import UserBusiness from "database/models/user_business_roles.model";
 
 export const addCommerce = async (data) => {
-    const commerceData = data;
+    const commerceData = Object.assign({}, data);
     delete commerceData.userId;
 
     const commerce =
@@ -14,17 +14,13 @@ export const addCommerce = async (data) => {
             });
     if(!Boolean(commerce)) throw new Error("Error al agregar el comercio");
 
-    const userByEmail = await UserAuth.findOne({
-        where: {
-            "email": data.email
-        }
-    }).catch((err) => {
+    const userByEmail = await User.findByPk(data.userId).catch((err) => {
         console.error(err);
         throw new Error("Error al obtener el usuario");
     });
 
     const userBusiness = await UserBusiness.create({
-        "userId": userByEmail.getDataValue("userId"),
+        "userId": userByEmail.getDataValue("id"),
         "businessId": commerce.id
     }).catch((err) => {
         console.error(err);

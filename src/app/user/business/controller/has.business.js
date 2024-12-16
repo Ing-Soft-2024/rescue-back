@@ -1,10 +1,11 @@
 import Business from "database/models/business.model";
 import UserBusiness from "database/models/user_business_roles.model";
 
-export const hasBusiness = async (userId) => {
+export const hasBusiness = async (body) => {
+    console.log(body);
     const userBusinessRole = await UserBusiness.findOne({
         where: {
-            userId
+            userId: body.userId,
         },
     }).catch((err) => {
         console.error(err);
