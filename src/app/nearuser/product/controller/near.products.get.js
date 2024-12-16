@@ -6,11 +6,23 @@ import Business from "database/models/business.model";
 import levenshtein from "js-levenshtein";
 
 export const getNearProducts = async (categoryId, userLongitude, userLatitude, search) => {
+    console.log("GETNEARPRODUCTS");
     const where = {
         categoryId: categoryId ?? null,
         deletedAt: null,
     };
     if (!categoryId) delete where.categoryId;
+
+    console.log("Received coordinates:", {
+        userLatitude,
+        userLongitude
+    });
+
+    // Also log a few businesses' coordinates
+    const businesses = await Business.findAll({
+        attributes: ['id', 'latitude', 'longitude']
+    });
+    console.log("Available businesses:", businesses);
 
     let products = await Product.findAll({
         include: [
@@ -32,6 +44,8 @@ export const getNearProducts = async (categoryId, userLongitude, userLatitude, s
         ],
         where
     });
+
+    console.log("SEARCH", search);
     if (search) {
         const searchLower = search.toLowerCase();
         products = products.filter(product => {

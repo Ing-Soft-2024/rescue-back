@@ -49,12 +49,15 @@ export const getListOfOrders = async (userId, businessId) => {
             };
         });
 
-        // Debugging output
+        // Debugging output - only if there are orders
         if (ordersWithTotalPrice.length > 0) {
             console.log("Orden 1: ", ordersWithTotalPrice[0]);
             console.log("Business: ", ordersWithTotalPrice[0].business);
             console.log("OrderItems: ", ordersWithTotalPrice[0].order_items);
-            console.log("Product 1: ", ordersWithTotalPrice[0].order_items[0].product);
+            // Only try to access product if there are order items
+            if (ordersWithTotalPrice[0].order_items.length > 0) {
+                console.log("Product 1: ", ordersWithTotalPrice[0].order_items[0].product);
+            }
         }
 
         return ordersWithTotalPrice;

@@ -3,19 +3,16 @@ import OrderItem from "database/models/order_item.model";
 import Product from "database/models/product.model";
 
 
-export const postOrder =async (data, user) => {
+export const postOrder =async (data) => {
     console.log("data: ",data);
     const cart = data.cart;
     if(!cart) throw new Error("Cart is required");
-    const orderData = {
-        ...data,
-        userId: user.id,
-    }
-    console.log("ORDER DATA: ",orderData);
+   
+    console.log("ORDER DATA: ",data);
         
 
 
-    const order =  await Order.create(orderData) 
+    const order =  await Order.create(data) 
         .catch((err) => {
             console.error(err);
             throw new Error("Error al crear el pedido");
