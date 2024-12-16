@@ -36,7 +36,7 @@ const associateModels = async () => {
         await import(importPath)
             .then((module) => module.default)
             .then((model) => {
-                console.log(model);
+                if(model?.name === undefined) return;
                 models[model.name] = model;
             })
             .catch(err => {

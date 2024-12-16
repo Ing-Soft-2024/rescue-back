@@ -47,7 +47,7 @@ const MercadoPago = sequelize.define('mercadopago', {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
 
-    tableName: 'categories',
+    tableName: 'mercadopago',
 });
 
 /**
