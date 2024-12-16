@@ -62,3 +62,4 @@ export class RegisterCredentials {
     })
     state;
 }
+export default RegisterCredentials;

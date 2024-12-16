@@ -55,7 +55,7 @@ const MercadoPago = sequelize.define('mercadopago', {
  * @param {*} models 
  */
 MercadoPago.associate = function (models) {
-    MercadoPago.hasMany(models.commerce, { foreignKey: 'commerceId' });
+    MercadoPago.hasMany(models.business, { foreignKey: 'commerceId' });
 }
 
 export default MercadoPago;

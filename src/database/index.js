@@ -32,9 +32,11 @@ const associateModels = async () => {
 
         // const importPath = `${basePath}/${file.parentPath}/${file.name}`;
         const importPath = `./models/${file.name}`;
+        console.log(importPath);
         await import(importPath)
             .then((module) => module.default)
             .then((model) => {
+                console.log(model);
                 models[model.name] = model;
             })
             .catch(err => {
