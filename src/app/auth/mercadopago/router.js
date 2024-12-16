@@ -1,4 +1,4 @@
-import { ApiOperationPost, ApiPath } from "swagger-express-ts";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { authenticateOnMercadoPago } from "./controller/auth";
 
@@ -26,4 +26,17 @@ export default class MercadoPagoController {
     POST = (req, res) => responseFormula(res, authenticateOnMercadoPago(
         req.body    
     ));
+
+
+    @ApiOperationGet({
+        description: "CheckoutPro example",
+        summary: "CheckoutPro example",
+        responses: {
+            200: "Success",
+        },
+    })
+    GET = (req, res) => {
+        const { code, state } = req.query;
+        res.redirect(`rescueappbussiness://create_commerce?code=${code}&state=${state}`);
+    }
 }
