@@ -3,12 +3,12 @@ import { MercadoPagoConfig, OAuth } from 'mercadopago';
 
 
 export const authenticateOnMercadoPago = async (
-    session,
     {
         client_secret,
         client_id,
         code,
-        redirect_uri
+        redirect_uri,
+        userId
     }
 ) => {
     const client = new MercadoPagoConfig({ 
@@ -20,8 +20,8 @@ export const authenticateOnMercadoPago = async (
     const result = await oauth.create({
         'client_secret': client_secret,
         'client_id': client_id,
+        'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': redirect_uri,
     })
     .catch(() => { throw new Error("No se pudo autenticar con Mercado Pago") });
     if(!result.access_token) throw new Error("No se pudo autenticar con Mercado Pago");
@@ -31,7 +31,7 @@ export const authenticateOnMercadoPago = async (
         "access_token": result.access_token,
         "refresh_token": result.refresh_token,
         "expires_in": result.expires_in,
-        "userId": session.user.id
+        "userId": userId
     })
 
     return result;
