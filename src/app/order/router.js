@@ -1,4 +1,4 @@
-import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-decorators";
+import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { getListOfOrders } from "./controller/order.get.all";
 import { postOrder } from "./controller/order.post";
@@ -13,14 +13,14 @@ import { Authorization } from "utils/jwt/authorization.decorator";
 export default class OrdersController {
     constructor() {
         // Add middleware to all routes in this controller
-        this.GET = [authenticateToken, this.GET];
-        this.POST = [authenticateToken, this.POST];
+     //   this.GET = [authenticateToken, this.GET];
+       // this.POST = [authenticateToken, this.POST];
     }
 
     @ApiOperationGet({
         description: "Get list of orders",
         summary: "Get list of orders",
-        security: [{ Bearer: [] }],
+        //security: [{ Bearer: [] }],
         parameters: {
             query: {
                 "userId": {
@@ -47,7 +47,7 @@ export default class OrdersController {
             }
         },
     })
-    @Authorization()
+    //@Authorization()
     GET = (req, res) => responseFormula(res, getListOfOrders(
         req.query.userId,
         req.query.businessId
@@ -56,7 +56,7 @@ export default class OrdersController {
     @ApiOperationPost({
         description: "Create order",
         summary: "Create order",
-        security: [{ Bearer: [] }],
+        //security: [{ Bearer: [] }],
         parameters: {
             body: {
                 description: "Order object",
@@ -70,6 +70,6 @@ export default class OrdersController {
             }
         }
     })
-    @Authorization()
+    //@Authorization()
     POST = (req, res) => responseFormula(res, postOrder(req.body));
 }

@@ -42,7 +42,7 @@ class BusinessModel extends Model {
     @ApiModelProperty({
         description: 'Latitude',
         required: true,
-        example: 10,
+        example: 37.421060006049295, 
         type: 'number',
     })
     latitude;
@@ -50,7 +50,7 @@ class BusinessModel extends Model {
     @ApiModelProperty({
         description: 'Longitude',
         required: true,
-        example: 10,
+        example: -122.08523002549389,
         type: 'number',
     })
     longitude;
@@ -83,7 +83,7 @@ class BusinessModel extends Model {
     @ApiModelProperty({
         description: 'userId',
         required: true,
-        example: "user@example.com",
+        example: "1",
         type: 'string',
     })
     userId;
