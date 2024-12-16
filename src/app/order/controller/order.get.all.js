@@ -42,7 +42,8 @@ export const getListOfOrders = async (userId, businessId) => {
         // Add totalPrice field to each order
         const ordersWithTotalPrice = orders.map(order => {
             const orderData = order.get({ plain: true });
-            const totalPrice = orderData.order_items.reduce((sum, item) => sum + item.price, 0);
+            console.log("ORDER DATA: ", orderData);
+            const totalPrice = orderData.order_items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             return {
                 ...orderData,
                 totalPrice

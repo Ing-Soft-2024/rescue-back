@@ -18,7 +18,7 @@ export const postOrder =async (data) => {
             throw new Error("Error al crear el pedido");
         });
 
-    const orderItems = await OrderItem.bulkCreate(cart.map(async (item) => {
+    const orderItemsData = await Promise.all(cart.map(async (item) => {
         const product = await Product.findByPk(item.product.id);
         if(!product) throw new Error("Product not found");
         product.stock = product.stock - item.quantity;
@@ -29,10 +29,13 @@ export const postOrder =async (data) => {
             "quantity": item.quantity,
             "price": Number(item.product.price)
         }
-    })).catch((err) => {
-        order.destroy();
-        throw new Error("Error al crear el pedido");
-    });
+    }));
+
+    const orderItems = await OrderItem.bulkCreate(orderItemsData)
+        .catch((err) => {
+            order.destroy();
+            throw new Error("Error al crear el pedido");
+        });
 
     console.log("orderItems: ", orderItems[0].toJSON());
     console.log("order: ",order.id);
