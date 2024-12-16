@@ -10,16 +10,13 @@ import { postOrder } from "./controller/order.post";
     description: "Module to manage orders.",
 })
 export default class OrdersController {
-    constructor() {
-        // Add middleware to all routes in this controller
-        this.GET = [authenticateToken, this.GET];
-        this.POST = [authenticateToken, this.POST];
-    }
+   
+    
 
     @ApiOperationGet({
         description: "Get list of orders",
         summary: "Get list of orders",
-        security: [{ Bearer: [] }],
+    
         parameters: {
             query: {
                 "userId": {
@@ -47,7 +44,7 @@ export default class OrdersController {
         },
         
     })
-    @Authorization()
+  
     GET = (req, res) => responseFormula(res, getListOfOrders(
         req.query.userId,
         req.query.businessId
@@ -55,7 +52,7 @@ export default class OrdersController {
 
     @ApiOperationPost({
         description: "Post order",
-        security: [{ Bearer: [] }],
+       
         parameters: {
             body: {
                 description: "create Order with id",
@@ -85,6 +82,6 @@ export default class OrdersController {
         },
         
     })
-    @Authorization()
+
     POST = (req, res) => responseFormula(res, postOrder(req.body, req.user));
 }

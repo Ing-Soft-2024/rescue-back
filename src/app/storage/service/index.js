@@ -15,7 +15,13 @@ const firebaseConfig = {
 };
 
 
-const serviceAccount = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+const serviceAccount = process.env.GOOGLE_CREDENTIALS 
+  ? JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  : null;
+
+if (!serviceAccount) {
+  throw new Error('GOOGLE_CREDENTIALS environment variable is not set');
+}
 
 // Initialize Firebase
 // Production

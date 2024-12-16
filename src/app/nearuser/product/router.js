@@ -43,7 +43,7 @@ export default class NearProductsController {
     })
     GET = (req, res) => responseFormula(
         res,
-        getNearProducts(req.query.categoryId, req.query.userLatitude, req.query.userLongitude, req.query.search)
+        getNearProducts(req.query.categoryId,  req.query.userLongitude,req.query.userLatitude, req.query.search)
     );
 
 
