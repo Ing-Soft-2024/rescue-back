@@ -18,6 +18,8 @@ const ProductCategories = sequelize.define('product_categories', {
  * @param {*} models 
  */
 ProductCategories.associate = function (models) {
+    ProductCategories.belongsTo(models.product, { foreignKey: 'productId' });
+    ProductCategories.belongsTo(models.category, { foreignKey: 'categoryId' });
 }
 
 export default ProductCategories;
