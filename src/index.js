@@ -31,6 +31,7 @@ const categories = [
 ]
 
 initDatabase().then(() => {
+    
     categories.forEach(async category => await Category.create(category))
 }).then(() => {
     readRouter(app, {
