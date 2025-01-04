@@ -96,7 +96,8 @@ class BusinessModel extends Model {
  */
 const Business = sequelize.define('business', {
     "name": DataTypes.TEXT,
-    "address": DataTypes.TEXT,
+    "streetName": DataTypes.TEXT,
+    "streetNumber": DataTypes.TEXT,
     "city": DataTypes.TEXT,
     "country": DataTypes.TEXT,
 
