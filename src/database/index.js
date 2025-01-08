@@ -60,6 +60,8 @@ const initDatabase = async () => {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
+    await sequelize.query('CREATE EXTENSION IF NOT EXISTS pg_trgm;');
+
     await associateModels().catch((err) => {
         console.error(err);
         process.exit(1);
@@ -70,6 +72,8 @@ const initDatabase = async () => {
         process.exit(1);
     });
     console.log('Database synced!');
+
+   // await sequelize.query('CREATE INDEX IF NOT EXISTS trgm_idx_products_name ON products USING gin (name gin_trgm_ops);');
 }
 
 export { initDatabase, sequelize };
