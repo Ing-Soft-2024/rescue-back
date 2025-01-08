@@ -10,27 +10,48 @@ import { authenticateOnMercadoPago } from "./controller/auth";
 })
 export default class MercadoPagoController {
     @ApiOperationPost({
-        description: "CheckoutPro example",
-        summary: "CheckoutPro example",
+        description: "Authenticate with MercadoPago",
+        summary: "Authenticate with MercadoPago",
         parameters: {
             body: {
-                description: "Order Item Object",
+                description: "OAuth credentials",
                 required: true,
-                model: "OrderItem",
+                properties: {
+                    client_id: {
+                        type: "string",
+                        required: true
+                    },
+                    client_secret: {
+                        type: "string",
+                        required: true
+                    },
+                    code: {
+                        type: "string",
+                        required: true
+                    },
+                    redirect_uri: {
+                        type: "string",
+                        required: true
+                    },
+                    commerceId: {
+                        type: "integer",
+                        required: true
+                    }
+                }
             },
         },
         responses: {
             200: "Success",
+            400: "Bad Request",
+            500: "Internal Server Error"
         },
     })
-    POST = (req, res) => responseFormula(res, authenticateOnMercadoPago(
-        req.body    
-    ));
+    POST = (req, res) => responseFormula(res, authenticateOnMercadoPago(req.body));
 
 
     @ApiOperationGet({
-        description: "CheckoutPro example",
-        summary: "CheckoutPro example",
+        description: "MercadoPago OAuth Callback",
+        summary: "MercadoPago OAuth Callback",
         responses: {
             200: "Success",
         },
