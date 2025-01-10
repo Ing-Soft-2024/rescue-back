@@ -42,6 +42,7 @@ const MercadoPago = sequelize.define('mercadopago', {
     "refresh_token": DataTypes.TEXT,
     "expires_in": DataTypes.INTEGER,
     "commerceId": DataTypes.INTEGER,
+    "user_id": DataTypes.STRING,
 }, {
     timestamps: true,
     createdAt: 'createdAt',

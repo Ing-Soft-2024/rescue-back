@@ -52,12 +52,35 @@ export default class MercadoPagoController {
     @ApiOperationGet({
         description: "MercadoPago OAuth Callback",
         summary: "MercadoPago OAuth Callback",
+        parameters: {
+            query: {
+                code: {
+                    type: "string",
+                    required: true
+                },
+                state: {
+                    type: "string",
+                    required: true
+                }
+            }
+        },
         responses: {
             200: "Success",
         },
     })
-    GET = (req, res) => {
-        const { code, state } = req.query;
-        res.redirect(`rescueappbussiness://create_commerce?code=${code}&state=${state}`);
+    GET = async (req, res) => {
+        const { code, state: commerceId } = req.query;
+        
+        // Exchange the code for access token
+        const result = await authenticateOnMercadoPago({
+            client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
+            client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+            code,
+            redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+            commerceId
+        });
+
+        // Redirect back to your app with success/failure
+        res.redirect(`your-app-scheme://mercadopago/callback?success=true`);
     }
 }

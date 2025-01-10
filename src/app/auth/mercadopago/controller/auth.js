@@ -33,11 +33,25 @@ export const authenticateOnMercadoPago = async ({
         access_token: result.access_token,
         refresh_token: result.refresh_token,
         expires_in: result.expires_in,
-        commerceId: commerceId
+        commerceId: commerceId,
+        user_id: result.user_id
     }).catch((error) => {
         console.error('Database Error:', error);
         throw new Error("Error al guardar las credenciales de Mercado Pago");
     });
 
     return result;
+}
+
+export const getAuthorizationURL = (commerceId) => {
+    const baseURL = "https://auth.mercadopago.com.ar/authorization";
+    const params = new URLSearchParams({
+        client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+        response_type: 'code',
+        platform_id: 'mp',
+        redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+        state: commerceId // Used to identify the commerce after redirect
+    });
+    
+    return `${baseURL}?${params.toString()}`;
 }
