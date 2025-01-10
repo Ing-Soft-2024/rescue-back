@@ -13,7 +13,7 @@ services:
       - DB_NAME=rescue
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - MERCADO_PAGO_ACCESS_TOKEN=APP_USR-4993987139809199-100718-6cf7e47324c3edfb890bc7aaf6e29808-2013334309
+      # - MERCADO_PAGO_ACCESS_TOKEN=APP_USR-4993987139809199-100718-6cf7e47324c3edfb890bc7aaf6e29808-2013334309
     depends_on:
       db:
         condition: service_healthy
