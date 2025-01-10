@@ -71,16 +71,20 @@ export default class MercadoPagoController {
     GET = async (req, res) => {
         const { code, state: commerceId } = req.query;
         
-        // Exchange the code for access token
-        const result = await authenticateOnMercadoPago({
-            client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
-            client_id: process.env.MERCADO_PAGO_CLIENT_ID,
-            code,
-            redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
-            commerceId
-        });
+        try {
+            await authenticateOnMercadoPago({
+                client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
+                client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+                code,
+                redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+                commerceId
+            });
 
-        // Redirect back to your app with success/failure
-        res.redirect(`your-app-scheme://mercadopago/callback?success=true`);
+            // Redirect to your mobile app
+            res.redirect(`rescueapp-bussiness://mercadopago/callback?success=true`);
+        } catch (error) {
+            console.error('MP Auth Error:', error);
+            res.redirect(`rescueapp-bussiness://mercadopago/callback?success=false&error=${encodeURIComponent(error.message)}`);
+        }
     }
 }
