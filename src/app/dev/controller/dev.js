@@ -1,0 +1,13 @@
+
+
+export const getEnviromentVariables = async () => {
+    return {
+        MERCADO_PAGO_ACCESS_TOKEN: process.env.MERCADO_PAGO_ACCESS_TOKEN,
+        MERCADO_PAGO_CLIENT: process.env.MERCADO_PAGO_CLIENT,
+        MERCADO_PAGO_SECRET: process.env.MERCADO_PAGO_SECRET,
+        LOCATIONIQ_API_KEY: process.env.LOCATIONIQ_API_KEY,
+        MERCADO_PAGO_APPLICATION_TOKEN: process.env.MERCADO_PAGO_APPLICATION_TOKEN,
+        MERCADO_PAGO_REDIRECT_URI: process.env.MERCADO_PAGO_REDIRECT_URI,
+        MARKETPLACE_FEE_PERCENTAGE: process.env.MARKETPLACE_FEE_PERCENTAGE,
+    }
+}
