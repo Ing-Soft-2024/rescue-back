@@ -3,25 +3,22 @@ import OrderItem from "database/models/order_item.model";
 import Product from "database/models/product.model";
 
 
-export const postOrder =async (data, user) => {
+export const postOrder =async (data) => {
     console.log("data: ",data);
     const cart = data.cart;
     if(!cart) throw new Error("Cart is required");
-    const orderData = {
-        ...data,
-        userId: user.id,
-    }
-    console.log("ORDER DATA: ",orderData);
+   
+    console.log("ORDER DATA: ",data);
         
 
 
-    const order =  await Order.create(orderData) 
+    const order =  await Order.create(data) 
         .catch((err) => {
             console.error(err);
             throw new Error("Error al crear el pedido");
         });
 
-    const orderItems = await OrderItem.bulkCreate(cart.map(async (item) => {
+    const orderItemsData = await Promise.all(cart.map(async (item) => {
         const product = await Product.findByPk(item.product.id);
         if(!product) throw new Error("Product not found");
         product.stock = product.stock - item.quantity;
@@ -32,10 +29,13 @@ export const postOrder =async (data, user) => {
             "quantity": item.quantity,
             "price": Number(item.product.price)
         }
-    })).catch((err) => {
-        order.destroy();
-        throw new Error("Error al crear el pedido");
-    });
+    }));
+
+    const orderItems = await OrderItem.bulkCreate(orderItemsData)
+        .catch((err) => {
+            order.destroy();
+            throw new Error("Error al crear el pedido");
+        });
 
     console.log("orderItems: ", orderItems[0].toJSON());
     console.log("order: ",order.id);

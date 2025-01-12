@@ -78,6 +78,15 @@ class BusinessModel extends Model {
         type: 'number',
     })
     avgRating;
+
+
+    @ApiModelProperty({
+        description: 'userId',
+        required: true,
+        example: 10,
+        type: 'number',
+    })
+    userId;
 }
 
 /**
@@ -87,7 +96,8 @@ class BusinessModel extends Model {
  */
 const Business = sequelize.define('business', {
     "name": DataTypes.TEXT,
-    "address": DataTypes.TEXT,
+    "streetName": DataTypes.TEXT,
+    "streetNumber": DataTypes.TEXT,
     "city": DataTypes.TEXT,
     "country": DataTypes.TEXT,
 

@@ -22,12 +22,16 @@ app.use(express.static('public'));
  */
 const categories = [
     { "name": 'Comida', "description": 'Comida' },
-    { "name": 'Bebida', "description": 'Bebida' },
-    { "name": 'Vegetariano', "description": 'Vegetales' },
-    { "name": 'Café', "description": 'Café' },
+    { "name": 'Ropa', "description": 'Ropa' },
+    { "name": 'Hogar', "description": 'Hogar' },
+    { "name": 'Juguetes', "description": 'Juguetes' },
+    { "name": 'Deportes', "description": 'Deportes' },
+    { "name": 'Libros', "description": 'Libros' },
+    { "name": 'Herramientas', "description": 'Herramientas' },
 ]
 
 initDatabase().then(() => {
+    
     categories.forEach(async category => await Category.create(category))
 }).then(() => {
     readRouter(app, {

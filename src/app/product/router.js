@@ -45,10 +45,27 @@ export default class ProductsController {
                 description: "Product object",
                 required: true,
                 model: "Product",
+                properties: {
+                    name: { type: "string", required: true },
+                    description: { type: "string", required: true },
+                    price: { type: "number", required: true },
+                    businessId: { type: "integer", required: true },
+                    stock: { type: "integer", required: true },
+                    image: { type: "string", required: true },
+                    categories: { 
+                        type: "array", 
+                        required: true,
+                        items: {
+                            type: "integer"
+                        }
+                    }
+                }
             },
         },
         responses: {
             200: "Success",
+            400: "Bad Request - Missing required fields",
+            500: "Internal Server Error"
         }
     })
     POST = (req, res) => responseFormula(res, addProduct(req.body));

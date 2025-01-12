@@ -42,19 +42,24 @@ export const getListOfOrders = async (userId, businessId) => {
         // Add totalPrice field to each order
         const ordersWithTotalPrice = orders.map(order => {
             const orderData = order.get({ plain: true });
-            const totalPrice = orderData.order_items.reduce((sum, item) => sum + item.price, 0);
+            console.log("ORDER DATA: ", orderData);
+            const totalPrice = orderData.order_items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             return {
                 ...orderData,
                 totalPrice
             };
         });
 
-        // Debugging output
+        // Debugging output with safety checks
         if (ordersWithTotalPrice.length > 0) {
             console.log("Orden 1: ", ordersWithTotalPrice[0]);
             console.log("Business: ", ordersWithTotalPrice[0].business);
             console.log("OrderItems: ", ordersWithTotalPrice[0].order_items);
-            console.log("Product 1: ", ordersWithTotalPrice[0].order_items[0].product);
+            
+            // Only log product if order_items array is not empty
+            if (ordersWithTotalPrice[0].order_items.length > 0) {
+                console.log("Product 1: ", ordersWithTotalPrice[0].order_items[0].product);
+            }
         }
 
         return ordersWithTotalPrice;

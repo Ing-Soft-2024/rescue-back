@@ -56,6 +56,7 @@ export const createBlob = async (blobName, file) => {
     await fileBucket.save(bf)
         .catch((err) => { console.error(err); throw new Error('Error al crear el archivo en el servidor'); });
 
+    console.log("-------FULL NAME:  ", fullName, "--------------------");
     return fullName;
 };
 

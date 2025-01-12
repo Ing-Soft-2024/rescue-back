@@ -3,6 +3,7 @@ import Category from "database/models/category.model";
 import Product from "database/models/product.model";
 
 export const getCommerceById = async (id) => {
+    console.log("----------------ID--------------", id);
     const commerce = await Business.findByPk(id, {
         include: [{
             model: Product,
