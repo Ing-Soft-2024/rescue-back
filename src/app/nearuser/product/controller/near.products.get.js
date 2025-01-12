@@ -29,7 +29,7 @@ export const getNearProducts = async (categoryId, userLongitude, userLatitude, s
                         6371 * acos(cos(radians(${userLatitude})) * cos(radians(Business.latitude)) * cos(radians(${userLongitude}) - radians(Business.longitude)) + sin(radians(${userLatitude})) * sin(radians(Business.latitude)))
                     `),
                     '<',
-                    2  // Distance in kilometers
+                    20  // Distance in kilometers
                 ),
             }
         ],
