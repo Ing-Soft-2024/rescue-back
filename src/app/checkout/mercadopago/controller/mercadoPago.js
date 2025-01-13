@@ -58,7 +58,8 @@ const createPreferenceAsync = async (commerceId, items) => {
   }
 
   const client = new MercadoPagoConfig({ 
-    accessToken: process.env.MERCADO_PAGO_APPLICATION_TOKEN,
+    //accessToken: process.env.MERCADO_PAGO_APPLICATION_TOKEN,
+    accessToken: "APP_USR-2381168209109958-100110-445b988a8b4b1523c406e474b2e7f9ea-1160718084",
   });
 
   const preference = new Preference(client);
@@ -73,7 +74,8 @@ const createPreferenceAsync = async (commerceId, items) => {
       notification_url: `${process.env.API_URL}/webhook/mercadopago`,
       auto_return: "approved",
       purpose: "MARKETPLACE_PURCHASE",
-      marketplace_fee: Number(process.env.MARKETPLACE_FEE_PERCENTAGE),
+      //marketplace_fee: Number(process.env.MARKETPLACE_FEE_PERCENTAGE),
+      marketplace_fee: 5,
       collector_id: obtainedMercadoPago.user_id,
     },
   });

@@ -9,7 +9,8 @@ export const authenticateOnMercadoPago = async ({
     commerceId
 }) => {
     const client = new MercadoPagoConfig({ 
-        accessToken: process.env['MERCADO_PAGO_ACCESS_TOKEN'],
+        //accessToken: process.env['MERCADO_PAGO_ACCESS_TOKEN'],
+        accessToken: "APP_USR-2381168209109958-100110-445b988a8b4b1523c406e474b2e7f9ea-1160718084",
         options: { timeout: 5000 }
     });
 
@@ -46,10 +47,12 @@ export const authenticateOnMercadoPago = async ({
 export const getAuthorizationURL = (commerceId) => {
     const baseURL = "https://auth.mercadopago.com.ar/authorization";
     const params = new URLSearchParams({
-        client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+        //client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+        client_id: "2381168209109958",
         response_type: 'code',
         platform_id: 'mp',
-        redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+        //redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+        redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
         state: commerceId // Used to identify the commerce after redirect
     });
     

@@ -73,10 +73,13 @@ export default class MercadoPagoController {
         
         try {
             await authenticateOnMercadoPago({
-                client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
-                client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+                //client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
+                //client_id: process.env.MERCADO_PAGO_CLIENT_ID,
+                client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
+                client_id: "2381168209109958",
                 code,
-                redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+                //redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
+                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
                 commerceId
             });
 
