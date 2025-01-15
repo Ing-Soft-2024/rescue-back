@@ -84,10 +84,10 @@ export default class MercadoPagoController {
             });
 
             // Redirect to your mobile app
-            res.redirect(`rescueapp-bussiness://mercadopago/callback?success=true`);
+            res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
         } catch (error) {
             console.error('MP Auth Error:', error);
-            res.redirect(`rescueapp-bussiness://mercadopago/callback?success=false&error=${encodeURIComponent(error.message)}`);
+            res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen`);
         }
     }
 }
