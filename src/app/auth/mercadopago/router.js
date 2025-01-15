@@ -73,21 +73,31 @@ export default class MercadoPagoController {
         
         try {
             await authenticateOnMercadoPago({
-                //client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
-                //client_id: process.env.MERCADO_PAGO_CLIENT_ID,
                 client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
                 client_id: "2381168209109958",
                 code,
-                //redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
-                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
+                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/auth/mercadopago",
                 commerceId
             });
 
-            // Redirect to your mobile app
+            // Success case
             res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
         } catch (error) {
-            console.error('MP Auth Error:', error);
-            res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen`);
+            // Get the error details from MercadoPago
+            const errorMessage = error.cause?.[0]?.description || error.message;
+            const errorCode = error.cause?.[0]?.code || 'unknown_error';
+            
+            // Encode the error details in the redirect URL
+            const errorParams = new URLSearchParams({
+                error: errorCode,
+                message: errorMessage,
+                details: JSON.stringify({
+                    status: error.status,
+                    cause: error.cause
+                })
+            }).toString();
+
+            res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?${errorParams}`);
         }
     }
 }
