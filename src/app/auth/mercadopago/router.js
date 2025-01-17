@@ -108,23 +108,21 @@ export default class MercadoPagoController {
                 stack: error.stack
             });
 
+            
             const errorParams = new URLSearchParams({
                 error: 'mp_auth_error',
                 rawError: encodeURIComponent(JSON.stringify({
-                    authParams: {
-                        client_id: "2381168209109958",
-                        code,
-                        redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
-                        commerceId,
-                        client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen"
-                    },
+                    client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
+                client_id: "2381168209109958",
+                code,
+                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
+                commerceId,
                     fullQuery: req.query,
                     url: req.url,
                     message: error.message,
                     status: error.status,
                     cause: error.cause,
-                    stack: error.stack,
-                    response: error.response?.data
+                    errorResponse: error.response?.data?.message || error.response?.data
                 }))
             }).toString();
 
