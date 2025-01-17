@@ -100,6 +100,7 @@ export default class MercadoPagoController {
             const errorParams = new URLSearchParams({
                 error: 'mp_auth_error',
                 rawError: encodeURIComponent(JSON.stringify({
+                    query: req.query,
                     message: error.message,
                     status: error.status,
                     cause: error.cause,
