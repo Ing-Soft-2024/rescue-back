@@ -72,7 +72,10 @@ export default class MercadoPagoController {
         const { code, state: commerceId } = req.query;
         
         try {
-            await authenticateOnMercadoPago({
+            // Log the incoming request
+            console.log('MP Auth Callback received:', { code, commerceId });
+            
+            const result = await authenticateOnMercadoPago({
                 client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
                 client_id: "2381168209109958",
                 code,
@@ -80,24 +83,32 @@ export default class MercadoPagoController {
                 commerceId
             });
 
-            // Success case
-            res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
+            // Log successful authentication
+            console.log('MP Auth Success:', result);
+
+            // Make sure to end the response after redirect
+            return res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
         } catch (error) {
-            // Get the error details from MercadoPago
-            const errorMessage = error.cause?.[0]?.description || error.message;
-            const errorCode = error.cause?.[0]?.code || 'unknown_error';
-            
-            // Encode the error details in the redirect URL
+            // Log the full error object
+            console.error('MP Auth Full Error:', {
+                message: error.message,
+                status: error.status,
+                cause: error.cause,
+                stack: error.stack
+            });
+
             const errorParams = new URLSearchParams({
-                error: errorCode,
-                message: errorMessage,
-                details: JSON.stringify({
+                error: 'mp_auth_error',
+                rawError: encodeURIComponent(JSON.stringify({
+                    message: error.message,
                     status: error.status,
-                    cause: error.cause
-                })
+                    cause: error.cause,
+                    stack: error.stack,
+                    response: error.response?.data
+                }))
             }).toString();
 
-            res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?${errorParams}`);
+            return res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?${errorParams}`);
         }
     }
 }
