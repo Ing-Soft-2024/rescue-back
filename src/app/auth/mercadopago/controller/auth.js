@@ -18,7 +18,7 @@ export const authenticateOnMercadoPago = async ({
     });
 
     const client = new MercadoPagoConfig({ 
-        accessToken: "APP_USR-2381168209109958-100110-445b988a8b4b1523c406e474b2e7f9ea-1160718084",
+        accessToken: client_secret,
         options: { timeout: 5000 }
     });
 
@@ -31,6 +31,8 @@ export const authenticateOnMercadoPago = async ({
             code,
             redirect_uri
         });
+
+        console.log('MP OAuth Result:', result);
 
         if(!result.access_token) throw new Error("No access token received from Mercado Pago");
 
