@@ -17,25 +17,21 @@ export const authenticateOnMercadoPago = async ({
     });
 
     const client = new MercadoPagoConfig({ 
-        accessToken: client_secret,
-        options: { timeout: 5000 }
+        accessToken: client_secret
     });
 
     const oauth = new OAuth(client);
     try {
-        // Create the exact body structure that MercadoPago expects
-        const oauthBody = {
-            client_secret: client_secret,
-            client_id: client_id,
-            code: code,
-            redirect_uri: redirect_uri,
-            grant_type: 'authorization_code'
-        };
-
-        console.log('MP OAuth Request Body:', oauthBody);
-
-        // Make the OAuth request
-        const result = await oauth.create(oauthBody);
+        // According to MercadoPago's API documentation, the parameters should be in the body
+        const result = await oauth.create({
+            body: {
+                grant_type: 'authorization_code',
+                client_secret,
+                client_id,
+                code,
+                redirect_uri
+            }
+        });
 
         console.log('MP OAuth Success Response:', {
             hasAccessToken: !!result.access_token,
@@ -57,11 +53,6 @@ export const authenticateOnMercadoPago = async ({
             user_id: result.user_id
         });
 
-        console.log('MP Credentials Saved:', {
-            commerceId: savedCredentials.commerceId,
-            userId: savedCredentials.user_id
-        });
-
         return result;
     } catch (error) {
         console.error('MP Auth Error Details:', {
@@ -75,7 +66,7 @@ export const authenticateOnMercadoPago = async ({
             }
         });
         
-        throw new Error(`MercadoPago Authentication Error: ${error.response?.data?.message || error.message}`);
+        throw error;
     }
 }
 
