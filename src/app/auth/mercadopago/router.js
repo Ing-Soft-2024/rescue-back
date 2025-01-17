@@ -111,14 +111,15 @@ export default class MercadoPagoController {
             const errorParams = new URLSearchParams({
                 error: 'mp_auth_error',
                 rawError: encodeURIComponent(JSON.stringify({
-                    authParams: {client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
+                    authParams: {
                         client_id: "2381168209109958",
                         code,
                         redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
-                        commerceId},
+                        commerceId,
+                        client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen"
+                    },
                     fullQuery: req.query,
                     url: req.url,
-                    headers: req.headers,
                     message: error.message,
                     status: error.status,
                     cause: error.cause,
