@@ -72,14 +72,17 @@ export default class MercadoPagoController {
         const { code, state: commerceId } = req.query;
         
         try {
-            // Log the incoming request
-            console.log('MP Auth Callback received:', { code, commerceId });
+            console.log('MP Auth Callback received:', { 
+                code,
+                commerceId,
+                query: req.query
+            });
             
             const result = await authenticateOnMercadoPago({
                 client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
                 client_id: "2381168209109958",
                 code,
-                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/auth/mercadopago",
+                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
                 commerceId
             });
 

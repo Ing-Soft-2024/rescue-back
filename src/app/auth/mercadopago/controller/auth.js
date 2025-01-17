@@ -8,6 +8,15 @@ export const authenticateOnMercadoPago = async ({
     redirect_uri,
     commerceId
 }) => {
+    console.log('MP Auth Params:', {
+        client_secret,
+        client_id,
+        code,
+        redirect_uri,
+        commerceId,
+        grant_type: 'authorization_code'
+    });
+
     const client = new MercadoPagoConfig({ 
         accessToken: "APP_USR-2381168209109958-100110-445b988a8b4b1523c406e474b2e7f9ea-1160718084",
         options: { timeout: 5000 }
@@ -16,11 +25,11 @@ export const authenticateOnMercadoPago = async ({
     const oauth = new OAuth(client);
     try {
         const result = await oauth.create({
-            client_secret: client_secret,
-            client_id: client_id,
+            client_secret,
+            client_id,
             grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: redirect_uri
+            code,
+            redirect_uri
         });
 
         if(!result.access_token) throw new Error("No access token received from Mercado Pago");
@@ -39,14 +48,18 @@ export const authenticateOnMercadoPago = async ({
 
         return result;
     } catch (error) {
-        console.error('MercadoPago OAuth Error Details:', {
-            status: error.status,
-            statusText: error.statusText,
+        console.error('MP Auth Attempt Failed:', {
+            error: error.message,
             response: error.response?.data,
-            message: error.message
+            params: {
+                client_secret,
+                client_id,
+                code,
+                redirect_uri,
+                commerceId
+            }
         });
         
-        // Throw a more detailed error
         throw new Error(`MercadoPago Authentication Error: ${error.response?.data?.message || error.message}`);
     }
 }
