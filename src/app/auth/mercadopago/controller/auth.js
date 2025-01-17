@@ -8,13 +8,12 @@ export const authenticateOnMercadoPago = async ({
     redirect_uri,
     commerceId
 }) => {
-    console.log('MP Auth Params:', {
+    console.log('MP Auth Starting - Input Params:', {
         client_secret,
         client_id,
         code,
         redirect_uri,
-        commerceId,
-        grant_type: 'authorization_code'
+        commerceId
     });
 
     const client = new MercadoPagoConfig({ 
@@ -24,40 +23,54 @@ export const authenticateOnMercadoPago = async ({
 
     const oauth = new OAuth(client);
     try {
-        const result = await oauth.create({
-            client_secret,
-            client_id,
-            grant_type: 'authorization_code',
-            code,
-            redirect_uri
+        // Create the exact body structure that MercadoPago expects
+        const oauthBody = {
+            client_secret: client_secret,
+            client_id: client_id,
+            code: code,
+            redirect_uri: redirect_uri,
+            grant_type: 'authorization_code'
+        };
+
+        console.log('MP OAuth Request Body:', oauthBody);
+
+        // Make the OAuth request
+        const result = await oauth.create(oauthBody);
+
+        console.log('MP OAuth Success Response:', {
+            hasAccessToken: !!result.access_token,
+            hasRefreshToken: !!result.refresh_token,
+            expiresIn: result.expires_in,
+            userId: result.user_id
         });
 
-        console.log('MP OAuth Result:', result);
-
-        if(!result.access_token) throw new Error("No access token received from Mercado Pago");
+        if (!result.access_token) {
+            throw new Error("No access token received from Mercado Pago");
+        }
 
         // Save the credentials in database
-        await MercadoPago.create({
+        const savedCredentials = await MercadoPago.create({
             access_token: result.access_token,
             refresh_token: result.refresh_token,
             expires_in: result.expires_in,
             commerceId: commerceId,
             user_id: result.user_id
-        }).catch((error) => {
-            console.error('Database Error:', error);
-            throw new Error("Error al guardar las credenciales de Mercado Pago");
+        });
+
+        console.log('MP Credentials Saved:', {
+            commerceId: savedCredentials.commerceId,
+            userId: savedCredentials.user_id
         });
 
         return result;
     } catch (error) {
-        console.error('MP Auth Attempt Failed:', {
-            error: error.message,
-            response: error.response?.data,
-            params: {
-                client_secret,
+        console.error('MP Auth Error Details:', {
+            message: error.message,
+            responseData: error.response?.data,
+            requestParams: {
                 client_id,
-                code,
                 redirect_uri,
+                code_length: code?.length,
                 commerceId
             }
         });
