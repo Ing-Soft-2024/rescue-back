@@ -119,36 +119,30 @@ export default class MercadoPagoController {
 
             return res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
         } catch (error) {
-            // Create a detailed error object that will be shown in the frontend
-            const debugInfo = {
-                timestamp: new Date().toISOString(),
-                error: {
-                    message: error.message,
-                    stage: error.stage || 'unknown',
-                    status: error.status,
-                    cause: error.cause,
-                },
-                request: {
-                    code,
-                    commerceId,
-                    headers: req.headers['user-agent'],
-                    url: req.url
-                },
-                auth: {
-                    clientIdLastFour: "2381168209109958".slice(-4),
-                    redirectUri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago"
-                },
-                response: error.response ? {
-                    status: error.response.status,
-                    statusText: error.response.statusText,
-                    data: error.response.data
-                } : null
-            };
+            console.error('MP Auth Full Error:', {
+                message: error.message,
+                status: error.status,
+                cause: error.cause,
+                stack: error.stack
+            });
 
+            
             const errorParams = new URLSearchParams({
                 error: 'mp_auth_error',
                 message: error.message || 'Error en la autenticación con MercadoPago',
-                details: encodeURIComponent(JSON.stringify(debugInfo))
+                details: encodeURIComponent(JSON.stringify({
+                    client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
+                    client_id: "2381168209109958",
+                    code,
+                    redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
+                    commerceId,
+                    fullQuery: req.query,
+                    url: req.url,
+                    message: error.message,
+                    status: error.status,
+                    cause: error.cause,
+                    errorResponse: error.response?.data?.message || error.response?.data
+                }))
             }).toString();
 
             return res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?${errorParams}`);
