@@ -9,39 +9,46 @@ export const authenticateOnMercadoPago = async ({
     commerceId
 }) => {
     const client = new MercadoPagoConfig({ 
-        //accessToken: process.env['MERCADO_PAGO_ACCESS_TOKEN'],
         accessToken: "APP_USR-2381168209109958-100110-445b988a8b4b1523c406e474b2e7f9ea-1160718084",
         options: { timeout: 5000 }
     });
 
     const oauth = new OAuth(client);
-    const result = await oauth.create({
-        client_secret: client_secret,
-        client_id: client_id,
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: redirect_uri
-    })
-    .catch((error) => { 
-        console.error('MercadoPago OAuth Error:', error);
-        throw new Error("No se pudo autenticar con Mercado Pago") 
-    });
+    try {
+        const result = await oauth.create({
+            client_secret: client_secret,
+            client_id: client_id,
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: redirect_uri
+        });
 
-    if(!result.access_token) throw new Error("No se pudo autenticar con Mercado Pago");
+        if(!result.access_token) throw new Error("No access token received from Mercado Pago");
 
-    // Save the credentials in database
-    await MercadoPago.create({
-        access_token: result.access_token,
-        refresh_token: result.refresh_token,
-        expires_in: result.expires_in,
-        commerceId: commerceId,
-        user_id: result.user_id
-    }).catch((error) => {
-        console.error('Database Error:', error);
-        throw new Error("Error al guardar las credenciales de Mercado Pago");
-    });
+        // Save the credentials in database
+        await MercadoPago.create({
+            access_token: result.access_token,
+            refresh_token: result.refresh_token,
+            expires_in: result.expires_in,
+            commerceId: commerceId,
+            user_id: result.user_id
+        }).catch((error) => {
+            console.error('Database Error:', error);
+            throw new Error("Error al guardar las credenciales de Mercado Pago");
+        });
 
-    return result;
+        return result;
+    } catch (error) {
+        console.error('MercadoPago OAuth Error Details:', {
+            status: error.status,
+            statusText: error.statusText,
+            response: error.response?.data,
+            message: error.message
+        });
+        
+        // Throw a more detailed error
+        throw new Error(`MercadoPago Authentication Error: ${error.response?.data?.message || error.message}`);
+    }
 }
 
 export const getAuthorizationURL = (commerceId) => {
