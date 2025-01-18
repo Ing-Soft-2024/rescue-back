@@ -24,7 +24,16 @@ export const createPreference = async (data) => {
   if (!order) throw new Error("Order not found");
   
   // Get commerceId from the order
-  const commerceId = order.commerceId;
+  const commerceId = order.businessId;
+
+  // Get seller's MercadoPago credentials
+  const sellerCredentials = await MercadoPago.findOne({
+    where: { commerceId }
+  });
+
+  if (!sellerCredentials) {
+    throw new Error("Este comercio aún no tiene configurada su cuenta de MercadoPago");
+  }
 
   // Map items to Mercado Pago format
   const items = order.order_items.map((item) => ({
@@ -34,12 +43,35 @@ export const createPreference = async (data) => {
     unit_price: Number(item.price)
   }));
 
-  // Create preference with commerce's credentials
-  const result = await createPreferenceAsync(commerceId, items);
+  const client = new MercadoPagoConfig({ 
+    accessToken: sellerCredentials.access_token
+  });
 
-  return {
-    checkoutURL: result.init_point
-  };
+  const preference = new Preference(client);
+  
+  try {
+    const result = await preference.create({
+      body: {
+        items,
+        back_urls: {
+          success: "myapp://screens/checkout/?success=true",
+          failure: "myapp://screens/checkout/?failure=true",
+          pending: "myapp://screens/checkout/?pending=true",
+        },
+        notification_url: `${process.env.API_URL}/webhook/mercadopago`,
+        auto_return: "approved",
+        external_reference: orderId.toString(),
+        marketplace: "NONE" // This indicates it's a direct seller payment
+      },
+    });
+
+    return {
+      checkoutURL: result.init_point
+    };
+  } catch (error) {
+    console.error('Error creating preference:', error);
+    throw new Error("Error al crear la preferencia de pago: " + error.message);
+  }
 }
 
 const createPreferenceAsync = async (commerceId, items) => {

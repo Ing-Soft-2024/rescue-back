@@ -1,6 +1,7 @@
 import { ApiOperationGet, ApiOperationPost, ApiPath } from "swagger-express-ts";
 import { responseFormula } from "utils/response.util";
 import { authenticateOnMercadoPago } from "./controller/auth";
+import { Business } from "../database/models/business.model";
 
 
 @ApiPath({
@@ -72,63 +73,24 @@ export default class MercadoPagoController {
         const { code, state: commerceId } = req.query;
         
         try {
-            // Detailed logging of the incoming request
-            console.log('MP Auth Callback - Full Details:', { 
+            const result = await authenticateOnMercadoPago({
+                client_secret: process.env.MERCADO_PAGO_CLIENT_SECRET,
+                client_id: process.env.MERCADO_PAGO_CLIENT_ID,
                 code,
-                commerceId,
-                fullQuery: req.query,
-                url: req.url,
-                headers: req.headers
-            });
-            
-            // Log the exact parameters we're passing to authenticateOnMercadoPago
-            const authParams = {
-                grant_type: 'authorization_code',
-                client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
-                client_id: "2381168209109958",
-                code,
-                redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
+                redirect_uri: process.env.MERCADO_PAGO_REDIRECT_URI,
                 commerceId
-            };
-            
-            console.log('MP Auth - Passing Parameters:', authParams);
+            });
 
-            const result = await authenticateOnMercadoPago(authParams);
+            // Update business to indicate MercadoPago is connected
+            await Business.update(
+                { hasMercadoPago: true },
+                { where: { id: commerceId } }
+            );
 
-            // Log successful authentication
-            console.log('MP Auth Success:', result);
-
-            // Make sure to end the response after redirect
             return res.redirect(`rescueapp-bussiness://MercadoPagoSuccessScreen`);
         } catch (error) {
-            // Log the full error object
-            console.error('MP Auth Full Error:', {
-                message: error.message,
-                status: error.status,
-                cause: error.cause,
-                stack: error.stack
-            });
-
-            
-            const errorParams = new URLSearchParams({
-                error: 'mp_auth_error',
-                message: error.message || 'Error en la autenticación con MercadoPago',
-                details: encodeURIComponent(JSON.stringify({
-                    client_secret: "wt9PNaBNkA10IYFlgbP7Kdl7Kf48IDen",
-                    client_id: "2381168209109958",
-                    code,
-                    redirect_uri: "https://varied-laurella-rescue-bafbd5dd.koyeb.app/api/auth/mercadopago",
-                    commerceId,
-                    fullQuery: req.query,
-                    url: req.url,
-                    message: error.message,
-                    status: error.status,
-                    cause: error.cause,
-                    errorResponse: error.response?.data?.message || error.response?.data
-                }))
-            }).toString();
-
-            return res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?${errorParams}`);
+            console.error('MP Auth Error:', error);
+            return res.redirect(`rescueapp-bussiness://MercadoPagoErrorScreen?error=${encodeURIComponent(error.message)}`);
         }
     }
 }

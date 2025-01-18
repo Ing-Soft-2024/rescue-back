@@ -106,6 +106,10 @@ const Business = sequelize.define('business', {
     "ordersRated": DataTypes.DECIMAL,
     "ratingSum": DataTypes.DECIMAL,
     "avgRating": DataTypes.FLOAT,
+    "hasMercadoPago": {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 }, {
     timestamps: true,
     createdAt: 'createdAt',
