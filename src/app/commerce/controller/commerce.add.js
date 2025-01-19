@@ -51,7 +51,8 @@ export const addCommerce = async (data) => {
         streetNumber: coordinates[0].streetNumber,
         city: coordinates[0].city,
         country: coordinates[0].country,
-        address: coordinates[0].formattedAddress
+        address: coordinates[0].formattedAddress,
+        //hasMercadoPago: false
     });
     console.log("COMMERCE DATA:",commerceData);
 
@@ -59,7 +60,7 @@ export const addCommerce = async (data) => {
         await Business.create(commerceData)
             .catch((err) => {
                 console.error(err);
-                throw new Error("Error al agregar el comercio");
+                throw new Error(err);
             });
     if(!Boolean(commerce)) throw new Error("Error al agregar el comercio");
 
